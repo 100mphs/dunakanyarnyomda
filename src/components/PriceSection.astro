@@ -74,7 +74,7 @@ const categoryAccentClassMap = {
             ))}
 
             {(entry.notes?.length || entry.extras?.length) && (
-              <div class="grid gap-4 lg:grid-cols-2">
+              <div class={`grid gap-4 ${entry.notes?.length && entry.extras?.length ? 'lg:grid-cols-2' : ''}`}>
                 {entry.notes?.length ? (
                   <div class="rounded-[1.4rem] border border-slate-200 bg-white px-5 py-5">
                     <h4 class="text-sm font-extrabold uppercase tracking-[0.16em] text-[var(--color-ink)]">
