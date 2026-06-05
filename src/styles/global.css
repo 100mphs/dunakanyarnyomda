@@ -1,0 +1,367 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap");
+@import "tailwindcss";
+
+:root {
+  --color-blue: #109cf3;
+  --color-blue-dark: #0a74cb;
+  --color-pink: #e6007e;
+  --color-yellow: #ffcf0f;
+  --color-ink: #101113;
+  --color-muted: #5f6773;
+  --color-panel: #ffffff;
+  --color-line: rgba(16, 17, 19, 0.08);
+  --shadow-soft: 0 22px 60px rgba(17, 36, 69, 0.12);
+  --shadow-card: 0 16px 45px rgba(15, 35, 67, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(16, 156, 243, 0.08), transparent 22rem),
+    radial-gradient(circle at top right, rgba(230, 0, 126, 0.08), transparent 20rem),
+    #fbfbfd;
+  color: var(--color-ink);
+  font-family: "Archivo", "Segoe UI", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Sora", "Archivo", sans-serif;
+}
+
+a,
+button {
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.section-shell {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.section-title {
+  @apply text-center text-3xl font-extrabold uppercase tracking-tight text-[var(--color-ink)] md:text-4xl;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 4.5rem;
+  height: 0.3rem;
+  margin: 0.9rem auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-blue), #8ad0ff);
+}
+
+.brand-button,
+.brand-button-primary,
+.brand-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3.5rem;
+  white-space: nowrap;
+  border-radius: 999px;
+  border: 2px solid var(--color-blue);
+  padding: 0.9rem 1.75rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: none;
+}
+
+.brand-button-primary {
+  background: var(--color-blue);
+  color: white;
+  box-shadow: var(--shadow-card);
+}
+
+.brand-button-primary:hover {
+  transform: translateY(-2px);
+  background: var(--color-blue-dark);
+}
+
+.brand-button-secondary {
+  background: white;
+  color: var(--color-blue);
+  box-shadow: 0 10px 28px rgba(15, 35, 67, 0.08);
+}
+
+.brand-button-secondary:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-blue-dark);
+  color: var(--color-blue-dark);
+}
+
+.surface-card {
+  border: 1px solid var(--color-line);
+  border-radius: 2rem;
+  background: white;
+  box-shadow: var(--shadow-soft);
+}
+
+.service-card {
+  position: relative;
+  border: 1px solid var(--color-line);
+  border-radius: 1.75rem;
+  background: white;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 1rem;
+  border-radius: 1.2rem;
+  background: linear-gradient(180deg, rgba(16, 156, 243, 0.04), transparent 55%);
+  pointer-events: none;
+}
+
+.reference-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 1.5rem;
+  background: white;
+  padding: 1rem;
+  box-shadow: var(--shadow-card);
+}
+
+.reference-art {
+  position: relative;
+  height: 14rem;
+  overflow: hidden;
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.8), transparent 35%),
+    linear-gradient(145deg, #20232a, #595f6b);
+}
+
+.reference-card[data-kind="business-card"] .reference-art::before,
+.reference-card[data-kind="flyer"] .reference-art::before,
+.reference-card[data-kind="poster"] .reference-art::before,
+.reference-card[data-kind="molinok"] .reference-art::before,
+.reference-card[data-kind="rollup"] .reference-art::before {
+  content: "";
+  position: absolute;
+  background: white;
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.18);
+}
+
+.reference-card[data-kind="business-card"] .reference-art::before {
+  width: 8.75rem;
+  height: 5.25rem;
+  left: 1.6rem;
+  bottom: 2rem;
+  border-radius: 1rem;
+  transform: rotate(-14deg);
+}
+
+.reference-card[data-kind="business-card"] .reference-art::after {
+  content: "";
+  position: absolute;
+  width: 8.75rem;
+  height: 5.25rem;
+  left: 4.8rem;
+  bottom: 3.25rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #0e1118, #333947);
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.22);
+}
+
+.reference-card[data-kind="flyer"] .reference-art::before {
+  width: 9rem;
+  height: 12rem;
+  right: 2.1rem;
+  top: 1.6rem;
+  border-radius: 1.1rem;
+  transform: rotate(18deg);
+}
+
+.reference-card[data-kind="flyer"] .reference-art::after {
+  content: "";
+  position: absolute;
+  width: 9rem;
+  height: 12rem;
+  right: 4.2rem;
+  top: 2.5rem;
+  border-radius: 1.1rem;
+  background: linear-gradient(145deg, #0b0d12, #3b4352);
+  transform: rotate(8deg);
+  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.2);
+}
+
+.reference-card[data-kind="poster"] .reference-art::before {
+  width: 10rem;
+  height: 13rem;
+  left: 50%;
+  top: 1.5rem;
+  border-radius: 0.9rem;
+  transform: translateX(-50%) rotate(-6deg);
+}
+
+.reference-card[data-kind="molinok"] .reference-art::before {
+  width: 12rem;
+  height: 7rem;
+  left: 50%;
+  bottom: 2.4rem;
+  border-radius: 0.9rem;
+  transform: translateX(-50%);
+}
+
+.reference-card[data-kind="rollup"] .reference-art::before {
+  width: 5.6rem;
+  height: 12.8rem;
+  left: 50%;
+  bottom: 1.8rem;
+  border-radius: 0.9rem;
+  transform: translateX(-50%);
+}
+
+.reference-logo {
+  position: absolute;
+  inset: auto auto 1rem 1rem;
+  width: 6.5rem;
+  opacity: 0.95;
+}
+
+.brand-stripes {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 10%;
+  height: 22%;
+}
+
+.brand-stripes::before,
+.brand-stripes::after,
+.brand-stripes span {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  border-radius: 999px;
+  transform-origin: left center;
+}
+
+.brand-stripes::before {
+  height: 0.95rem;
+  top: 0;
+  background: linear-gradient(90deg, var(--color-pink), #ff42a2);
+  transform: rotate(-4deg);
+}
+
+.brand-stripes span {
+  height: 0.9rem;
+  top: 33%;
+  background: linear-gradient(90deg, var(--color-blue), #54c6ff);
+  transform: rotate(-1deg);
+}
+
+.brand-stripes::after {
+  height: 0.75rem;
+  top: 66%;
+  background: linear-gradient(90deg, var(--color-yellow), #ffe97c);
+  transform: rotate(2deg);
+}
+
+.hero-wave {
+  position: relative;
+  height: 6.25rem;
+  overflow: hidden;
+}
+
+.hero-wave::before,
+.hero-wave::after,
+.hero-wave span {
+  content: "";
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  border-radius: 999px;
+}
+
+.hero-wave::before {
+  top: 1.1rem;
+  height: 3rem;
+  background: linear-gradient(90deg, var(--color-pink), #ff3d9d);
+  transform: rotate(-2deg);
+}
+
+.hero-wave span {
+  top: 2.1rem;
+  height: 3.1rem;
+  background: linear-gradient(90deg, var(--color-yellow), #ffe46d);
+}
+
+.hero-wave::after {
+  top: 3rem;
+  height: 3rem;
+  background: linear-gradient(90deg, var(--color-blue), #58c8ff);
+  transform: rotate(-2deg);
+}
+
+.price-placeholder-line {
+  height: 1rem;
+  border-radius: 999px;
+  background: rgb(241 245 249);
+}
+
+.about-visual {
+  background:
+    linear-gradient(135deg, rgba(11, 13, 18, 0.94), rgba(29, 33, 44, 0.78)),
+    linear-gradient(135deg, rgba(16, 156, 243, 0.1), rgba(230, 0, 126, 0.08));
+}
+
+.about-visual::before {
+  content: "";
+  position: absolute;
+  inset: 1.25rem;
+  border-radius: 1.25rem;
+  background:
+    linear-gradient(120deg, rgba(16, 156, 243, 0.95) 0%, rgba(16, 156, 243, 0.3) 22%, transparent 24%),
+    linear-gradient(136deg, rgba(230, 0, 126, 0.95) 0%, rgba(230, 0, 126, 0.28) 18%, transparent 20%),
+    linear-gradient(152deg, rgba(255, 207, 15, 0.95) 0%, rgba(255, 207, 15, 0.25) 14%, transparent 16%);
+  mix-blend-mode: screen;
+}
+
+.about-visual::after {
+  content: "";
+  position: absolute;
+  inset: auto 1.5rem 1.5rem auto;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35), transparent 70%);
+}
+
+.contact-map {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(16, 156, 243, 0.12), transparent 18rem),
+    white;
+}
+
+.contact-panel {
+  background:
+    linear-gradient(145deg, rgba(8, 9, 14, 0.98), rgba(27, 31, 40, 0.92)),
+    linear-gradient(145deg, rgba(16, 156, 243, 0.18), rgba(230, 0, 126, 0.18));
+}
+
+@media (max-width: 767px) {
+  .section-title::after {
+    width: 3.5rem;
+  }
+}

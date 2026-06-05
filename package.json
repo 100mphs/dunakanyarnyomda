@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "dunakanyarnyomda",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -12,6 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.4.4"
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^5.18.2",
+    "tailwindcss": "^4.3.0"
   }
 }
