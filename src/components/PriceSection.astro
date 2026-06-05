@@ -1,36 +1,113 @@
+---
+import { pricingCatalog } from '../data/pricing';
+import PricingTable from './pricing/PricingTable.astro';
+
+const categoryAccentClassMap = {
+  navy: 'from-slate-950 to-slate-900 text-white',
+  blue: 'from-[var(--color-blue)] to-[#5ec7ff] text-white',
+  pink: 'from-[var(--color-pink)] to-[#ff4ca6] text-white',
+  yellow: 'from-[var(--color-yellow)] to-[#ffe47a] text-[var(--color-ink)]',
+};
+---
+
 <section id="arlista" class="section-shell pt-20">
   <div class="surface-card px-6 py-8 sm:px-10 sm:py-10">
     <h2 class="section-title">Árlista</h2>
-    <div class="mx-auto mt-10 max-w-5xl rounded-[1.6rem] border border-dashed border-[var(--color-blue)]/35 bg-[linear-gradient(180deg,rgba(16,156,243,0.05),rgba(255,255,255,0.9))] p-5 sm:p-8">
-      <div class="overflow-hidden rounded-[1.2rem] border border-slate-200 bg-white">
-        <div class="grid grid-cols-[1.1fr_1.4fr_0.8fr_0.8fr] gap-3 bg-[var(--color-ink)] px-4 py-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white sm:text-xs">
-          <span>Termék</span>
-          <span>Leírás</span>
-          <span>Mennyiség</span>
-          <span>Ár</span>
-        </div>
-        <div class="space-y-3 px-4 py-5">
-          {Array.from({ length: 5 }).map(() => (
-            <div class="grid grid-cols-[1.1fr_1.4fr_0.8fr_0.8fr] gap-3">
-              <div class="price-placeholder-line"></div>
-              <div class="price-placeholder-line"></div>
-              <div class="price-placeholder-line"></div>
-              <div class="price-placeholder-line"></div>
-            </div>
-          ))}
-        </div>
-      </div>
+    <p class="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-[var(--color-muted)] sm:text-base">
+      Az alábbi árak a beküldött árlisták alapján kerültek strukturált formába, kategóriák szerint.
+      A tartalom most már egy külön adatfájlból rajzolódik ki, így a későbbi szerkesztés gyors és biztonságos.
+    </p>
 
-      <div class="mt-6 text-center">
-        <p class="text-base font-semibold text-[var(--color-ink)]">
-          Az árlista helyére később érkezik a végleges tartalom.
-        </p>
-        <p class="mx-auto mt-2 max-w-2xl text-sm leading-7 text-[var(--color-muted)]">
-          Addig egyedi ajánlat alapján dolgozunk. Küldd el az elképzelést, a méretet, a darabszámot
-          és a határidőt, és gyorsan visszajelzünk.
-        </p>
-        <a href="#kapcsolat" class="brand-button-primary mt-6">Kérj egyedi ajánlatot!</a>
-      </div>
+    <div class="mt-12 space-y-8">
+      {pricingCatalog.map((entry) => (
+        <article class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_18px_50px_rgba(16,17,19,0.08)]">
+          <div class="border-b border-slate-100 bg-[linear-gradient(180deg,rgba(16,156,243,0.06),rgba(255,255,255,1))] px-6 py-6 sm:px-8">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <h3 class="text-2xl font-extrabold uppercase tracking-tight text-[var(--color-ink)] sm:text-3xl">
+                  {entry.title}
+                </h3>
+                {entry.subtitle && (
+                  <p class="mt-2 text-sm font-semibold text-[var(--color-blue)] sm:text-base">
+                    {entry.subtitle}
+                  </p>
+                )}
+                {entry.description && (
+                  <p class="mt-3 max-w-2xl text-sm leading-7 text-[var(--color-muted)]">
+                    {entry.description}
+                  </p>
+                )}
+              </div>
+              {entry.pricingUnit && (
+                <span class="rounded-full border border-[var(--color-blue)]/20 bg-[var(--color-blue)]/8 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--color-blue)]">
+                  {entry.pricingUnit}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div class="space-y-6 px-6 py-6 sm:px-8">
+            {entry.categories.map((category) => (
+              <section class="rounded-[1.6rem] border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
+                <div class={`rounded-[1.2rem] bg-gradient-to-r px-4 py-4 sm:px-5 ${categoryAccentClassMap[category.accent ?? 'navy']}`}>
+                  <div class="flex flex-wrap items-center gap-3">
+                    <h4 class="text-lg font-extrabold uppercase tracking-[0.08em] sm:text-xl">
+                      {category.title}
+                    </h4>
+                    {category.badge && (
+                      <span class="rounded-full bg-white/20 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em]">
+                        {category.badge}
+                      </span>
+                    )}
+                  </div>
+                  {category.subtitle && (
+                    <p class="mt-2 text-sm font-medium opacity-90">{category.subtitle}</p>
+                  )}
+                </div>
+
+                <div class={`mt-4 grid gap-4 ${category.tables.length > 1 ? 'xl:grid-cols-2' : ''}`}>
+                  {category.tables.map((table) => (
+                    <PricingTable table={table} />
+                  ))}
+                </div>
+              </section>
+            ))}
+
+            {(entry.notes?.length || entry.extras?.length) && (
+              <div class="grid gap-4 lg:grid-cols-2">
+                {entry.notes?.length ? (
+                  <div class="rounded-[1.4rem] border border-slate-200 bg-white px-5 py-5">
+                    <h4 class="text-sm font-extrabold uppercase tracking-[0.16em] text-[var(--color-ink)]">
+                      Megjegyzések
+                    </h4>
+                    <ul class="mt-3 space-y-2 text-sm leading-7 text-[var(--color-muted)]">
+                      {entry.notes.map((note) => (
+                        <li>{note}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                {entry.extras?.length ? (
+                  <div class="rounded-[1.4rem] border border-[var(--color-blue)]/25 bg-[var(--color-blue)]/5 px-5 py-5">
+                    <h4 class="text-sm font-extrabold uppercase tracking-[0.16em] text-[var(--color-blue)]">
+                      Kiegészítő árak
+                    </h4>
+                    <div class="mt-3 space-y-3">
+                      {entry.extras.map((extra) => (
+                        <div class="rounded-2xl bg-white px-4 py-3 shadow-[0_10px_25px_rgba(16,17,19,0.05)]">
+                          <div class="text-sm font-semibold text-[var(--color-muted)]">{extra.label}</div>
+                          <div class="mt-1 text-xl font-extrabold text-[var(--color-blue)]">{extra.value}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            )}
+          </div>
+        </article>
+      ))}
     </div>
   </div>
 </section>

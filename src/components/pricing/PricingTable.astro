@@ -1,0 +1,70 @@
+---
+import type { PriceTable } from '../../data/pricing';
+
+interface Props {
+  table: PriceTable;
+}
+
+const { table } = Astro.props;
+
+const accentClassMap = {
+  navy: 'bg-slate-950 text-white',
+  blue: 'bg-[var(--color-blue)] text-white',
+  pink: 'bg-[var(--color-pink)] text-white',
+  yellow: 'bg-[var(--color-yellow)] text-[var(--color-ink)]',
+};
+
+const valueClassMap = {
+  navy: 'text-slate-950',
+  blue: 'text-[var(--color-blue)]',
+  pink: 'text-[var(--color-pink)]',
+  yellow: 'text-slate-950',
+};
+
+const accentClass = accentClassMap[table.accent ?? 'navy'];
+const valueClass = valueClassMap[table.accent ?? 'navy'];
+
+const formatValue = (value: number | string) =>
+  typeof value === 'number' ? `${new Intl.NumberFormat('hu-HU').format(value)} Ft` : value;
+---
+
+<div class="overflow-hidden rounded-[1.3rem] border border-slate-200 bg-white shadow-[0_12px_30px_rgba(16,17,19,0.06)]">
+  <div class={`px-4 py-3 text-center text-sm font-extrabold uppercase tracking-[0.16em] ${accentClass}`}>
+    {table.title}
+  </div>
+  {table.subtitle && (
+    <div class="border-b border-slate-100 bg-slate-50 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.16em] text-[var(--color-muted)]">
+      {table.subtitle}
+    </div>
+  )}
+  <div class="overflow-x-auto">
+    <table class="w-full min-w-[20rem] border-collapse">
+      <thead>
+        <tr class="bg-slate-50">
+          <th class="border-b border-r border-slate-200 px-4 py-3 text-left text-sm font-bold text-[var(--color-ink)]">
+            {table.rowHeader}
+          </th>
+          {table.columns.map((column) => (
+            <th class="border-b border-slate-200 px-4 py-3 text-center text-sm font-bold text-[var(--color-ink)]">
+              {column}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {table.rows.map((row) => (
+          <tr>
+            <td class="border-b border-r border-slate-200 px-4 py-4 text-sm font-medium text-[var(--color-ink)] last:border-b-0">
+              {row.label}
+            </td>
+            {row.values.map((value) => (
+              <td class={`border-b border-slate-200 px-4 py-4 text-center text-base font-extrabold sm:text-2xl ${valueClass}`}>
+                {formatValue(value)}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
