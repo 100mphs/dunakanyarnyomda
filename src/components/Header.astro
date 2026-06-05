@@ -16,10 +16,10 @@ import PhoneIcon from './PhoneIcon.astro';
       ))}
     </nav>
 
-    <a href="#kapcsolat" class="brand-button-primary">
+    <button type="button" class="brand-button-primary" data-quote-open>
       <PhoneIcon class="h-4 w-4 fill-current" />
       Kérj ajánlatot!
-    </a>
+    </button>
 
     <nav class="flex w-full flex-wrap items-center justify-center gap-x-5 gap-y-3 border-t border-slate-100 pt-4 text-xs font-bold uppercase tracking-wide text-[var(--color-ink)] lg:hidden">
       {quickLinks.map((link) => (

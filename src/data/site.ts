@@ -11,6 +11,26 @@ export const services = [
     icon: iconPrint,
   },
   {
+    title: 'Fénymásolás',
+    description: 'Gyors fekete-fehér és színes másolás több méretben.',
+    icon: iconPrint,
+  },
+  {
+    title: 'Szkennelés',
+    description: 'Dokumentumok és képek digitalizálása rövid határidővel.',
+    icon: iconGraphicDesign,
+  },
+  {
+    title: 'Spirálozás',
+    description: 'Víztiszta előlap, fehér hátlap és rendezett dokumentumkötés.',
+    icon: iconPoster,
+  },
+  {
+    title: 'Laminálás',
+    description: 'Dokumentumok, kártyák és anyagok tartós fóliázása.',
+    icon: iconPoster,
+  },
+  {
     title: 'Szórólapok',
     description: 'Plakátok, prospektusok és szóróanyagok többféle méretben.',
     icon: iconFlyer,
@@ -21,14 +41,14 @@ export const services = [
     icon: iconBusinessCard,
   },
   {
-    title: 'Grafikai tervezés',
-    description: 'Logó, arculat, kiadvány és nyomdai előkészítés egy helyen.',
-    icon: iconGraphicDesign,
-  },
-  {
     title: 'Poszterek',
     description: 'Molinók, táblák, roll-upok és egyedi látványanyagok.',
     icon: iconPoster,
+  },
+  {
+    title: 'Grafikai tervezés',
+    description: 'Logó, arculat, kiadvány és nyomdai előkészítés egy helyen.',
+    icon: iconGraphicDesign,
   },
 ];
 

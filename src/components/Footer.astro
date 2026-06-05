@@ -2,64 +2,77 @@
 import logo from '../assets/logo.svg';
 import { quickLinks } from '../data/site';
 
-const currentYear = new Date().getFullYear();
+const currentYear = 2024;
 ---
 
-<footer class="border-t border-slate-200 bg-white">
-  <div class="section-shell grid gap-10 py-10 md:grid-cols-2 xl:grid-cols-[minmax(0,1.1fr)_repeat(3,minmax(0,0.63fr))]">
-    <div>
-      <img src={logo.src} alt="Dunakanyar Nyomda" class="h-auto w-56" />
-      <p class="mt-4 max-w-sm text-sm leading-7 text-[var(--color-muted)]">
-        Digitális és hagyományos nyomtatás, grafikai tervezés és teljes körű nyomdai megoldások a
-        Dunakanyarban.
-      </p>
-    </div>
+<footer class="bg-[linear-gradient(180deg,#02142D_0%,#010A17_100%)] text-white">
+  <div class="section-shell py-12">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.72fr)]">
+      <div>
+        <img src={logo.src} alt="Dunakanyar Nyomda" class="h-auto w-64 brightness-0 invert" />
+        <p class="mt-6 max-w-sm text-base leading-8 text-white/75">
+          Nyomtatás, fénymásolás, spirálozás, laminálás és grafikai tervezés Tahitótfaluban.
+        </p>
+        <div class="mt-6 flex gap-3">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-blue)] text-xl font-extrabold text-white hover:-translate-y-0.5"
+            aria-label="Facebook"
+          >
+            f
+          </a>
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-pink)] text-xl font-extrabold text-white hover:-translate-y-0.5"
+            aria-label="Instagram"
+          >
+            ◎
+          </a>
+        </div>
+      </div>
 
-    <div>
-      <h2 class="text-sm font-extrabold uppercase tracking-[0.22em] text-[var(--color-ink)]">
-        Gyors linkek
-      </h2>
-      <ul class="mt-4 space-y-3 text-sm text-[var(--color-muted)]">
-        {quickLinks.map((link) => (
-          <li>
-            <a href={link.href} class="hover:text-[var(--color-blue)]">{link.label}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
+      <div>
+        <h2 class="text-sm font-extrabold uppercase tracking-[0.22em] text-white">
+          Elérhetőség
+        </h2>
+        <div class="mt-6 space-y-4 text-base text-white/75">
+          <p>📍 2021 Tahitótfalu, Ifjúság út 2.</p>
+          <a href="tel:+36702110674" class="block hover:text-white">📞 +36 70 211 0674</a>
+          <a href="mailto:dunakanyarnyomda@gmail.com" class="block hover:text-white">
+            ✉️ dunakanyarnyomda@gmail.com
+          </a>
+          <p>🕒 Hétfőtől péntekig: 8:30 – 16:30</p>
+        </div>
+      </div>
 
-    <div>
-      <h2 class="text-sm font-extrabold uppercase tracking-[0.22em] text-[var(--color-ink)]">
-        Elérhetőség
-      </h2>
-      <div class="mt-4 space-y-3 text-sm text-[var(--color-muted)]">
-        <a href="tel:+36301234567" class="block hover:text-[var(--color-blue)]">+36 30 123 4567</a>
-        <a href="mailto:info@dunakanyarnyomda.hu" class="block hover:text-[var(--color-blue)]">
-          info@dunakanyarnyomda.hu
-        </a>
-        <p>2022 Tahitótfalu, Klapka u.</p>
+      <div>
+        <h2 class="text-sm font-extrabold uppercase tracking-[0.22em] text-white">
+          Hasznos linkek
+        </h2>
+        <ul class="mt-6 space-y-4 text-base text-white/75">
+          {quickLinks.map((link) => (
+            <li>
+              <a href={link.href} class="inline-flex items-center gap-3 hover:text-white">
+                <span class="text-[var(--color-blue)]" aria-hidden="true">›</span>
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
 
-    <div>
-      <h2 class="text-sm font-extrabold uppercase tracking-[0.22em] text-[var(--color-ink)]">
-        Kövess minket
-      </h2>
-      <div class="mt-4">
-        <a
-          href="https://facebook.com"
-          target="_blank"
-          rel="noreferrer"
-          class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-blue)] text-xl font-extrabold text-white hover:-translate-y-0.5 hover:bg-[var(--color-blue-dark)]"
-          aria-label="Facebook"
-        >
-          f
-        </a>
+    <div class="mt-12 grid gap-4 border-t border-white/12 pt-6 text-sm text-white/75 md:grid-cols-3 md:items-center">
+      <p>© {currentYear} Dunakanyar Nyomda</p>
+      <p class="md:text-center">Az árak bruttó árak, az ÁFA-t tartalmazzák.</p>
+      <div class="flex gap-5 md:justify-end">
+        <a href="#" class="hover:text-white">Adatkezelési tájékoztató</a>
+        <a href="#" class="hover:text-white">ÁSZF</a>
       </div>
     </div>
-  </div>
-
-  <div class="bg-[var(--color-blue)] py-4 text-center text-sm text-white">
-    © {currentYear} Dunakanyar Nyomda - Minden jog fenntartva.
   </div>
 </footer>

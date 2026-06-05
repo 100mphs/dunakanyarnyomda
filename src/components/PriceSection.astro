@@ -1,113 +1,645 @@
 ---
-import { pricingCatalog } from '../data/pricing';
-import PricingTable from './pricing/PricingTable.astro';
+type Accent =
+  | 'print'
+  | 'flyer'
+  | 'business'
+  | 'design'
+  | 'poster'
+  | 'spiral'
+  | 'laminate'
+  | 'scan'
+  | 'copy';
 
-const categoryAccentClassMap = {
-  navy: 'from-slate-950 to-slate-900 text-white',
-  blue: 'from-[var(--color-blue)] to-[#5ec7ff] text-white',
-  pink: 'from-[var(--color-pink)] to-[#ff4ca6] text-white',
-  yellow: 'from-[var(--color-yellow)] to-[#ffe47a] text-[var(--color-ink)]',
+type PriceRow = {
+  label: string;
+  values: (number | string)[];
 };
+
+type PriceTable = {
+  title: string;
+  subtitle?: string;
+  rowHeader: string;
+  columns: string[];
+  rows: PriceRow[];
+};
+
+const accentMap: Record<Accent, string> = {
+  print: '#0B5FFF',
+  flyer: '#FF1493',
+  business: '#F4C400',
+  design: '#111111',
+  poster: '#00BCD4',
+  spiral: '#7C4DFF',
+  laminate: '#00ACC1',
+  scan: '#4CAF50',
+  copy: '#0B5FFF',
+};
+
+const serviceOrder = [
+  'nyomtatas',
+  'fenymasolas',
+  'szkenneles',
+  'spiralozas',
+  'laminalas',
+  'szorolapok',
+  'nevjegykartyak',
+  'poszterek',
+  'grafikai-tervezes',
+] as const;
+
+const orderIndex = (id: string) => serviceOrder.indexOf(id as (typeof serviceOrder)[number]);
+
+const printingPapers = [
+  {
+    id: 'paper-80',
+    title: '80 g normál papír',
+    sizes: ['A5', 'A4', 'A3'],
+    bw: [
+      { label: '1-20 oldal', prices: { A5: 40, A4: 50, A3: 100 } },
+      { label: '21-100 oldal', prices: { A5: 20, A4: 40, A3: 80 } },
+      { label: '101+ oldal', prices: { A5: 15, A4: 30, A3: 60 } },
+    ],
+    color: [
+      { label: '1-20 oldal', prices: { A5: 120, A4: 180, A3: 360 } },
+      { label: '21-100 oldal', prices: { A5: 100, A4: 150, A3: 300 } },
+      { label: '101+ oldal', prices: { A5: 80, A4: 120, A3: 240 } },
+    ],
+  },
+  {
+    id: 'paper-120',
+    title: '120 g prémium papír',
+    sizes: ['A5', 'A4', 'A3'],
+    bw: [
+      { label: '1-20 oldal', prices: { A5: 45, A4: 60, A3: 120 } },
+      { label: '21-100 oldal', prices: { A5: 35, A4: 50, A3: 100 } },
+      { label: '101+ oldal', prices: { A5: 25, A4: 40, A3: 80 } },
+    ],
+    color: [
+      { label: '1-20 oldal', prices: { A5: 150, A4: 220, A3: 440 } },
+      { label: '21-100 oldal', prices: { A5: 120, A4: 180, A3: 360 } },
+      { label: '101+ oldal', prices: { A5: 100, A4: 150, A3: 300 } },
+    ],
+  },
+  {
+    id: 'paper-300',
+    title: '300 g karton',
+    sizes: ['A5', 'A4', 'A3'],
+    bw: [
+      { label: '1-20 oldal', prices: { A5: 120, A4: 180, A3: 360 } },
+      { label: '21+ oldal', prices: { A5: 100, A4: 150, A3: 300 } },
+    ],
+    color: [
+      { label: '1-20 oldal', prices: { A5: 300, A4: 450, A3: 900 } },
+      { label: '21+ oldal', prices: { A5: 250, A4: 400, A3: 800 } },
+    ],
+  },
+];
+
+const accordionItems = [
+  {
+    id: 'nyomtatas',
+    icon: '▣',
+    title: 'Nyomtatás',
+    summary: '80 g, 120 g és 300 g papír, fekete-fehér vagy színes nyomatok.',
+    accent: 'print',
+    kind: 'printing',
+    search: 'nyomtatás nyomtatas a4 a3 a5 80g 120g 300g fekete fehér színes',
+  },
+  {
+    id: 'szorolapok',
+    icon: '▤',
+    title: 'Szórólapok',
+    summary: '120 g fényes műnyomó papír, standard vagy teljes kifutós kivitel.',
+    accent: 'flyer',
+    badge: 'Népszerű',
+    kind: 'tables',
+    search: 'szórólapok szorolap a6 a5 egyoldalas kétoldalas népszerű',
+    tables: [
+      {
+        title: 'Standard - A6',
+        subtitle: 'Fehér szegély',
+        rowHeader: 'Mennyiség',
+        columns: ['Egyoldalas', 'Kétoldalas'],
+        rows: [
+          { label: '1-99 db', values: [80, 100] },
+          { label: '100-299 db', values: [60, 80] },
+          { label: '300+ db', values: [45, 65] },
+        ],
+      },
+      {
+        title: 'Standard - A5',
+        subtitle: 'Fehér szegély',
+        rowHeader: 'Mennyiség',
+        columns: ['Egyoldalas', 'Kétoldalas'],
+        rows: [
+          { label: '1-99 db', values: [100, 130] },
+          { label: '100-299 db', values: [80, 110] },
+          { label: '300+ db', values: [60, 85] },
+        ],
+      },
+      {
+        title: 'Teljes kifutós - A6',
+        rowHeader: 'Mennyiség',
+        columns: ['Egyoldalas', 'Kétoldalas'],
+        rows: [
+          { label: '1-99 db', values: [110, 140] },
+          { label: '100-299 db', values: [85, 115] },
+          { label: '300+ db', values: [65, 95] },
+        ],
+      },
+      {
+        title: 'Teljes kifutós - A5',
+        rowHeader: 'Mennyiség',
+        columns: ['Egyoldalas', 'Kétoldalas'],
+        rows: [
+          { label: '1-99 db', values: [130, 160] },
+          { label: '100-299 db', values: [100, 140] },
+          { label: '300+ db', values: [75, 110] },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'nevjegykartyak',
+    icon: '▭',
+    title: 'Névjegykártyák',
+    summary: '90 × 50 mm, 300 g prémium karton.',
+    accent: 'business',
+    badge: 'Népszerű',
+    kind: 'tables',
+    search: 'névjegykártyák nevjegykartya 90x50 300g karton',
+    tables: [
+      {
+        title: '90 × 50 mm',
+        subtitle: '300 g prémium karton',
+        rowHeader: 'Mennyiség',
+        columns: ['Egyoldalas', 'Kétoldalas'],
+        rows: [
+          { label: '50-99 db', values: [100, 130] },
+          { label: '100-299 db', values: [70, 100] },
+          { label: '300+ db', values: [50, 70] },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'poszterek',
+    icon: '▯',
+    title: 'Poszterek',
+    summary: 'A3, 300 g karton, színes nyomtatás.',
+    accent: 'poster',
+    kind: 'single',
+    search: 'poszter plakát a3 300g karton színes',
+    price: '900 Ft / db',
+    note: 'Nagyobb méret vagy egyedi igény esetén kérj ajánlatot.',
+  },
+  {
+    id: 'grafikai-tervezes',
+    icon: '✎',
+    title: 'Grafikai tervezés',
+    summary: 'Logó, arculat, kiadvány és nyomdai előkészítés.',
+    accent: 'design',
+    kind: 'list',
+    search: 'grafikai tervezés logo arculat névjegykártya szórólap plakát előkészítés',
+    price: '6500 Ft / megkezdett óra',
+    features: [
+      'Logótervezés',
+      'Arculattervezés',
+      'Névjegykártya tervezés',
+      'Szórólap tervezés',
+      'Plakát tervezés',
+      'Nyomdai előkészítés',
+    ],
+  },
+  {
+    id: 'fenymasolas',
+    icon: '◫',
+    title: 'Fénymásolás',
+    summary: 'Fekete-fehér és színes másolás több méretben.',
+    accent: 'copy',
+    kind: 'tables',
+    search: 'fénymásolás fenymasolas másolás fekete fehér színes a4 a3',
+    tables: [
+      {
+        title: 'Fekete-fehér',
+        rowHeader: 'Mennyiség',
+        columns: ['A4', 'A3'],
+        rows: [
+          { label: '1-20 oldal', values: [50, 100] },
+          { label: '21-100 oldal', values: [40, 80] },
+          { label: '101+ oldal', values: [30, 60] },
+        ],
+      },
+      {
+        title: 'Színes',
+        rowHeader: 'Mennyiség',
+        columns: ['A4', 'A3'],
+        rows: [
+          { label: '1-20 oldal', values: [180, 360] },
+          { label: '21-100 oldal', values: [150, 300] },
+          { label: '101+ oldal', values: [120, 240] },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'szkenneles',
+    icon: '▱',
+    title: 'Szkennelés',
+    summary: 'Dokumentumok és képek digitalizálása.',
+    accent: 'scan',
+    kind: 'tables',
+    search: 'szkennelés szkenneles scannelés digitalizálás üveglapról',
+    tables: [
+      {
+        title: 'Lapadagolóból',
+        rowHeader: 'Mennyiség',
+        columns: ['Ár'],
+        rows: [
+          { label: '1-10 oldal', values: [150] },
+          { label: '11-50 oldal', values: [90] },
+          { label: '51+ oldal', values: [50] },
+        ],
+      },
+    ],
+    extra: 'Üveglapról: 250 Ft / oldal',
+  },
+  {
+    id: 'spiralozas',
+    icon: '◎',
+    title: 'Spirálozás',
+    summary: 'Víztiszta előlap, fehér hátlap.',
+    accent: 'spiral',
+    kind: 'tables',
+    search: 'spirálozás spiral víztiszta előlap fehér hátlap',
+    tables: [
+      {
+        title: 'Kötés',
+        subtitle: 'Víztiszta előlap, fehér hátlap',
+        rowHeader: 'Mennyiség',
+        columns: ['Ár'],
+        rows: [
+          { label: '1-50 lap', values: [1000] },
+          { label: '51-100 lap', values: [1500] },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'laminalas',
+    icon: '◇',
+    title: 'Laminálás',
+    summary: '80 mikronos fólia több méretben.',
+    accent: 'laminate',
+    kind: 'tables',
+    search: 'laminálás laminalas 80 mikron fólia a5 a4 a3 névjegy a6',
+    tables: [
+      {
+        title: '80 mikronos fólia',
+        rowHeader: 'Mennyiség',
+        columns: ['A5', 'A4', 'A3', 'Névjegy/A6'],
+        rows: [
+          { label: '1-10 db', values: [250, 400, 800, 200] },
+          { label: '11-20 db', values: [200, 300, 600, 150] },
+          { label: '21+ db', values: [150, 200, 400, 150] },
+        ],
+      },
+    ],
+  },
+] as const;
+
+const sortedAccordionItems = [...accordionItems].sort((a, b) => orderIndex(a.id) - orderIndex(b.id));
+
+const formatPrice = (value: number | string) =>
+  typeof value === 'number' ? `${new Intl.NumberFormat('hu-HU').format(value)} Ft` : value;
 ---
 
-<section id="arlista" class="section-shell pt-20">
-  <div class="surface-card px-6 py-8 sm:px-10 sm:py-10">
-    <h2 class="section-title">Árlista</h2>
-    <p class="mx-auto mt-6 max-w-3xl text-center text-sm leading-7 text-[var(--color-muted)] sm:text-base">
-      Az alábbi árak a beküldött árlisták alapján kerültek strukturált formába, kategóriák szerint.
-      A tartalom most már egy külön adatfájlból rajzolódik ki, így a későbbi szerkesztés gyors és biztonságos.
-    </p>
+<section id="arlista" class="scroll-mt-28 bg-[#f8f9fb] py-20">
+  <div class="section-shell">
+    <div class="grid items-center gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+      <div>
+        <p class="text-sm font-extrabold uppercase tracking-[0.3em] text-[var(--color-blue)]">
+          Dunakanyar Nyomda
+        </p>
+        <h2 class="mt-4 text-5xl font-extrabold uppercase tracking-tight text-[var(--color-ink)] sm:text-6xl">
+          Árlista
+        </h2>
+        <p class="mt-5 max-w-xl text-xl font-bold text-[var(--color-ink)]">
+          Gyorsan megtalálod, amit keresel.
+        </p>
+        <p class="mt-2 max-w-xl text-base leading-7 text-[var(--color-muted)]">
+          Áraink <span class="font-extrabold text-[var(--color-blue)]">bruttó árak</span>, az ÁFA-t tartalmazzák.
+        </p>
+      </div>
 
-    <div class="mt-12 space-y-8">
-      {pricingCatalog.map((entry) => (
-        <article class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_18px_50px_rgba(16,17,19,0.08)]">
-          <div class="border-b border-slate-100 bg-[linear-gradient(180deg,rgba(16,156,243,0.06),rgba(255,255,255,1))] px-6 py-6 sm:px-8">
-            <div class="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <h3 class="text-2xl font-extrabold uppercase tracking-tight text-[var(--color-ink)] sm:text-3xl">
-                  {entry.title}
-                </h3>
-                {entry.subtitle && (
-                  <p class="mt-2 text-sm font-semibold text-[var(--color-blue)] sm:text-base">
-                    {entry.subtitle}
-                  </p>
-                )}
-                {entry.description && (
-                  <p class="mt-3 max-w-2xl text-sm leading-7 text-[var(--color-muted)]">
-                    {entry.description}
-                  </p>
-                )}
-              </div>
-              {entry.pricingUnit && (
-                <span class="rounded-full border border-[var(--color-blue)]/20 bg-[var(--color-blue)]/8 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--color-blue)]">
-                  {entry.pricingUnit}
-                </span>
-              )}
-            </div>
-          </div>
+      <div class="rounded-[20px] bg-white p-5 shadow-[0_8px_30px_rgba(0,0,0,0.05)]">
+        <label for="price-search" class="text-lg font-extrabold text-[var(--color-ink)]">Mit keresel?</label>
+        <div class="mt-4 flex overflow-hidden rounded-2xl border border-slate-200 bg-white focus-within:border-[var(--color-blue)]">
+          <input
+            id="price-search"
+            type="search"
+            placeholder="Pl. névjegykártya, szórólap, A4 nyomtatás..."
+            class="min-h-14 min-w-0 flex-1 px-4 text-sm font-semibold text-[var(--color-ink)] outline-none placeholder:text-slate-400"
+          />
+          <span class="flex w-14 items-center justify-center border-l border-slate-200 text-2xl text-[var(--color-blue)]" aria-hidden="true">
+            ⌕
+          </span>
+        </div>
+      </div>
+    </div>
 
-          <div class="space-y-6 px-6 py-6 sm:px-8">
-            {entry.categories.map((category) => (
-              <section class="rounded-[1.6rem] border border-slate-200 bg-slate-50/70 p-4 sm:p-5">
-                <div class={`rounded-[1.2rem] bg-gradient-to-r px-4 py-4 sm:px-5 ${categoryAccentClassMap[category.accent ?? 'navy']}`}>
-                  <div class="flex flex-wrap items-center gap-3">
-                    <h4 class="text-lg font-extrabold uppercase tracking-[0.08em] sm:text-xl">
-                      {category.title}
-                    </h4>
-                    {category.badge && (
-                      <span class="rounded-full bg-white/20 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em]">
-                        {category.badge}
-                      </span>
-                    )}
-                  </div>
-                  {category.subtitle && (
-                    <p class="mt-2 text-sm font-medium opacity-90">{category.subtitle}</p>
+    <div class="mt-12 space-y-3" id="price-accordion-list">
+      {sortedAccordionItems.map((item, index) => {
+        const accent = accentMap[item.accent as Accent];
+
+        return (
+          <details
+            id={`price-${item.id}`}
+            data-price-category
+            data-search={`${item.title} ${item.summary} ${item.search}`}
+            class="group scroll-mt-28 rounded-[20px] bg-white shadow-[0_8px_30px_rgba(0,0,0,0.05)] ring-1 ring-slate-200/70"
+            style={`--accent: ${accent}`}
+            open={index === 0}
+          >
+            <summary class="flex cursor-pointer list-none items-center gap-4 px-4 py-4 sm:px-6 [&::-webkit-details-marker]:hidden">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[color:var(--accent)]/10 text-2xl font-extrabold text-[color:var(--accent)]">
+                {item.icon}
+              </span>
+              <span class="min-w-0 flex-1">
+                <span class="flex flex-wrap items-center gap-3">
+                  <span class="text-lg font-extrabold text-[var(--color-ink)] sm:text-xl">{item.title}</span>
+                  {'badge' in item && item.badge && (
+                    <span class="rounded-full bg-[color:var(--accent)]/10 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.12em] text-[color:var(--accent)]">
+                      {item.badge}
+                    </span>
                   )}
-                </div>
+                </span>
+                <span class="mt-1 block text-sm leading-6 text-[var(--color-muted)]">{item.summary}</span>
+              </span>
+              <span class="text-2xl font-extrabold text-[color:var(--accent)] transition group-open:rotate-180" aria-hidden="true">
+                ⌄
+              </span>
+            </summary>
 
-                <div class={`mt-4 grid gap-4 ${category.tables.length > 1 ? 'xl:grid-cols-2' : ''}`}>
-                  {category.tables.map((table) => (
-                    <PricingTable table={table} />
-                  ))}
-                </div>
-              </section>
-            ))}
+            <div class="border-t border-slate-100 px-4 pb-5 sm:px-6 sm:pb-6">
+              <div class="mb-5 mt-4 rounded-2xl border border-[color:var(--accent)]/15 bg-[color:var(--accent)]/5 px-4 py-3 text-sm font-bold text-[var(--color-ink)]">
+                Az árak bruttó árak, az ÁFA-t tartalmazzák.
+              </div>
 
-            {(entry.notes?.length || entry.extras?.length) && (
-              <div class={`grid gap-4 ${entry.notes?.length && entry.extras?.length ? 'lg:grid-cols-2' : ''}`}>
-                {entry.notes?.length ? (
-                  <div class="rounded-[1.4rem] border border-slate-200 bg-white px-5 py-5">
-                    <h4 class="text-sm font-extrabold uppercase tracking-[0.16em] text-[var(--color-ink)]">
-                      Megjegyzések
-                    </h4>
-                    <ul class="mt-3 space-y-2 text-sm leading-7 text-[var(--color-muted)]">
-                      {entry.notes.map((note) => (
-                        <li>{note}</li>
+              {item.kind === 'printing' && (
+                <div data-printing-widget>
+                  <div class="grid gap-3 md:grid-cols-[14rem_minmax(0,1fr)]">
+                    <div class="grid gap-2 md:block md:space-y-2">
+                      {printingPapers.map((paper, paperIndex) => (
+                        <button
+                          type="button"
+                          data-paper-tab={paper.id}
+                          class={`rounded-2xl border px-4 py-3 text-left text-sm font-extrabold transition ${
+                            paperIndex === 0
+                              ? 'border-[color:var(--accent)] bg-[color:var(--accent)] text-white'
+                              : 'border-slate-200 bg-white text-[var(--color-ink)] hover:border-[color:var(--accent)]'
+                          }`}
+                          aria-pressed={paperIndex === 0 ? 'true' : 'false'}
+                        >
+                          {paper.title}
+                        </button>
                       ))}
-                    </ul>
-                  </div>
-                ) : null}
+                    </div>
 
-                {entry.extras?.length ? (
-                  <div class="rounded-[1.4rem] border border-[var(--color-blue)]/25 bg-[var(--color-blue)]/5 px-5 py-5">
-                    <h4 class="text-sm font-extrabold uppercase tracking-[0.16em] text-[var(--color-blue)]">
-                      Kiegészítő árak
-                    </h4>
-                    <div class="mt-3 space-y-3">
-                      {entry.extras.map((extra) => (
-                        <div class="rounded-2xl bg-white px-4 py-3 shadow-[0_10px_25px_rgba(16,17,19,0.05)]">
-                          <div class="text-sm font-semibold text-[var(--color-muted)]">{extra.label}</div>
-                          <div class="mt-1 text-xl font-extrabold text-[var(--color-blue)]">{extra.value}</div>
+                    <div class="rounded-[20px] border border-slate-200 bg-white p-4">
+                      {printingPapers.map((paper, paperIndex) => (
+                        <div data-paper-panel={paper.id} class={paperIndex === 0 ? '' : 'hidden'}>
+                          <div class="mb-5 flex flex-wrap gap-2">
+                            {paper.sizes.map((size, sizeIndex) => (
+                              <button
+                                type="button"
+                                data-size-tab={size}
+                                class={`min-w-20 rounded-xl border px-5 py-2 text-sm font-extrabold transition ${
+                                  sizeIndex === 1
+                                    ? 'border-[color:var(--accent)] bg-[color:var(--accent)] text-white'
+                                    : 'border-slate-200 bg-white text-[var(--color-ink)] hover:border-[color:var(--accent)]'
+                                }`}
+                                aria-pressed={sizeIndex === 1 ? 'true' : 'false'}
+                              >
+                                {size}
+                              </button>
+                            ))}
+                          </div>
+
+                          {paper.sizes.map((size, sizeIndex) => (
+                            <div data-size-panel={size} class={sizeIndex === 1 ? '' : 'hidden'}>
+                              <div class="grid gap-4 lg:grid-cols-2">
+                                {[
+                                  { title: 'Fekete-fehér', rows: paper.bw, color: '#111111' },
+                                  { title: 'Színes', rows: paper.color, color: '#FF1493' },
+                                ].map((block) => (
+                                  <div class="rounded-[20px] border border-slate-200 bg-slate-50 p-4">
+                                    <h4 class="text-sm font-extrabold uppercase tracking-[0.12em]" style={`color: ${block.color}`}>
+                                      {block.title}
+                                    </h4>
+                                    <div class="mt-3 divide-y divide-slate-200">
+                                      {block.rows.map((row) => (
+                                        <div class="flex items-center justify-between gap-4 py-3">
+                                          <span class="text-sm font-semibold text-[var(--color-muted)]">{row.label}</span>
+                                          <span class="text-lg font-extrabold text-[var(--color-ink)]">
+                                            {formatPrice(row.prices[size])}
+                                          </span>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       ))}
                     </div>
                   </div>
-                ) : null}
-              </div>
-            )}
-          </div>
-        </article>
+                </div>
+              )}
+
+              {item.kind === 'tables' && 'tables' in item && (
+                <div class="grid gap-4 lg:grid-cols-2">
+                  {item.tables.map((table) => (
+                    <div class="rounded-[20px] border border-slate-200 bg-white p-4 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+                      <div class="mb-4">
+                        <h4 class="text-base font-extrabold text-[var(--color-ink)]">{table.title}</h4>
+                        {'subtitle' in table && table.subtitle && (
+                          <p class="mt-1 text-sm text-[var(--color-muted)]">{table.subtitle}</p>
+                        )}
+                      </div>
+
+                      <div class="hidden overflow-hidden rounded-2xl border border-slate-200 md:block">
+                        <table class="w-full border-collapse text-sm">
+                          <thead>
+                            <tr class="bg-slate-50 text-left">
+                              <th class="px-4 py-3 font-bold text-[var(--color-ink)]">{table.rowHeader}</th>
+                              {table.columns.map((column) => (
+                                <th class="px-4 py-3 text-right font-bold text-[var(--color-ink)]">{column}</th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {table.rows.map((row) => (
+                              <tr class="border-t border-slate-200">
+                                <td class="px-4 py-3 text-[var(--color-muted)]">{row.label}</td>
+                                {row.values.map((value) => (
+                                  <td class="px-4 py-3 text-right text-base font-extrabold text-[var(--color-ink)]">
+                                    {formatPrice(value)}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div class="space-y-3 md:hidden">
+                        {table.rows.map((row) => (
+                          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                            <div class="text-sm font-bold text-[var(--color-ink)]">{row.label}</div>
+                            <div class="mt-3 grid gap-2">
+                              {row.values.map((value, valueIndex) => (
+                                <div class="flex items-center justify-between gap-3 rounded-xl bg-white px-3 py-2">
+                                  <span class="text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-muted)]">
+                                    {table.columns[valueIndex]}
+                                  </span>
+                                  <span class="text-base font-extrabold" style={`color: ${accent}`}>
+                                    {formatPrice(value)}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  {'extra' in item && item.extra && (
+                    <div class="rounded-[20px] border border-[color:var(--accent)]/20 bg-[color:var(--accent)]/5 p-5">
+                      <p class="text-sm font-bold text-[var(--color-muted)]">Kiegészítő ár</p>
+                      <p class="mt-2 text-xl font-extrabold text-[color:var(--accent)]">{item.extra}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {item.kind === 'single' && (
+                <div class="rounded-[20px] border border-[color:var(--accent)]/20 bg-[color:var(--accent)]/5 p-5">
+                  <p class="text-sm font-bold text-[var(--color-muted)]">Ár</p>
+                  <p class="mt-2 text-3xl font-extrabold text-[color:var(--accent)]">{item.price}</p>
+                  <p class="mt-3 text-sm leading-7 text-[var(--color-muted)]">{item.note}</p>
+                </div>
+              )}
+
+              {item.kind === 'list' && (
+                <div class="grid gap-4 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+                  <div class="rounded-[20px] border border-[color:var(--accent)]/20 bg-[color:var(--accent)]/5 p-5">
+                    <p class="text-sm font-bold text-[var(--color-muted)]">Ár</p>
+                    <p class="mt-2 text-3xl font-extrabold text-[color:var(--accent)]">{item.price}</p>
+                  </div>
+                  <div class="grid gap-3 sm:grid-cols-2">
+                    {item.features.map((feature) => (
+                      <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-[var(--color-ink)]">
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </details>
+        );
+      })}
+    </div>
+
+    <div class="mt-8 grid items-center gap-5 rounded-[20px] bg-[linear-gradient(135deg,rgba(11,95,255,0.08),rgba(255,255,255,1))] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.05)] sm:p-8 lg:grid-cols-[auto_minmax(0,1fr)_auto]">
+      <div class="flex h-16 w-16 items-center justify-center rounded-3xl bg-[#0B5FFF] text-3xl font-extrabold text-white">
+        ▤
+      </div>
+      <div>
+        <h3 class="text-2xl font-extrabold text-[var(--color-ink)]">Egyedi igényed van?</h3>
+        <p class="mt-2 text-sm leading-7 text-[var(--color-muted)]">
+          Kérj személyre szabott ajánlatot, mi pedig rövid időn belül válaszolunk.
+        </p>
+      </div>
+      <button type="button" class="brand-button-primary" data-quote-open>
+        Ajánlatot kérek
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+
+    <div class="mt-8 grid gap-5 md:grid-cols-3">
+      {[
+        ['⚡', 'Gyors határidők', 'Rövid átfutási idő, megbízható teljesítés.'],
+        ['🏆', 'Prémium minőség', 'Modern géppark, kiváló végeredmény.'],
+        ['👥', 'Lakossági és üzleti ügyfeleknek', 'Kis példányszámtól a nagyobb megrendelésekig.'],
+      ].map(([icon, title, description]) => (
+        <div class="rounded-[20px] bg-white p-5 shadow-[0_8px_30px_rgba(0,0,0,0.05)]">
+          <div class="text-3xl" aria-hidden="true">{icon}</div>
+          <h3 class="mt-3 text-base font-extrabold text-[var(--color-ink)]">{title}</h3>
+          <p class="mt-2 text-sm leading-6 text-[var(--color-muted)]">{description}</p>
+        </div>
       ))}
     </div>
   </div>
+
+  <script>
+    const searchInput = document.querySelector<HTMLInputElement>('#price-search');
+    const priceCategories = Array.from(document.querySelectorAll<HTMLDetailsElement>('[data-price-category]'));
+    const normalize = (value: string) =>
+      value
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+
+    searchInput?.addEventListener('input', () => {
+      const query = normalize(searchInput.value.trim());
+
+      priceCategories.forEach((category, index) => {
+        const haystack = normalize(category.dataset.search ?? category.textContent ?? '');
+        const matches = !query || haystack.includes(query);
+        category.hidden = !matches;
+        category.open = query ? matches : index === 0;
+      });
+    });
+
+    document.querySelectorAll<HTMLElement>('[data-printing-widget]').forEach((widget) => {
+      const setPressed = (buttons: NodeListOf<HTMLButtonElement>, activeValue: string, dataKey: 'paperTab' | 'sizeTab') => {
+        buttons.forEach((button) => {
+          const isActive = button.dataset[dataKey] === activeValue;
+          button.setAttribute('aria-pressed', String(isActive));
+          button.classList.toggle('bg-[color:var(--accent)]', isActive);
+          button.classList.toggle('text-white', isActive);
+          button.classList.toggle('border-[color:var(--accent)]', isActive);
+          button.classList.toggle('bg-white', !isActive);
+          button.classList.toggle('text-[var(--color-ink)]', !isActive);
+          button.classList.toggle('border-slate-200', !isActive);
+        });
+      };
+
+      widget.querySelectorAll<HTMLButtonElement>('[data-paper-tab]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const paper = button.dataset.paperTab ?? '';
+          widget.querySelectorAll<HTMLElement>('[data-paper-panel]').forEach((panel) => {
+            panel.classList.toggle('hidden', panel.dataset.paperPanel !== paper);
+          });
+          setPressed(widget.querySelectorAll<HTMLButtonElement>('[data-paper-tab]'), paper, 'paperTab');
+        });
+      });
+
+      widget.querySelectorAll<HTMLElement>('[data-paper-panel]').forEach((panel) => {
+        panel.querySelectorAll<HTMLButtonElement>('[data-size-tab]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const size = button.dataset.sizeTab ?? '';
+            panel.querySelectorAll<HTMLElement>('[data-size-panel]').forEach((sizePanel) => {
+              sizePanel.classList.toggle('hidden', sizePanel.dataset.sizePanel !== size);
+            });
+            setPressed(panel.querySelectorAll<HTMLButtonElement>('[data-size-tab]'), size, 'sizeTab');
+          });
+        });
+      });
+    });
+  </script>
 </section>

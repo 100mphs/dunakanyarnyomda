@@ -1,39 +1,93 @@
 ---
 import map from '../assets/map.svg';
-import PhoneIcon from './PhoneIcon.astro';
+
+const mapsUrl =
+  'https://www.google.com/maps/search/?api=1&query=Dunakanyar+Nyomda+2021+Tahit%C3%B3tfalu+Ifj%C3%BAs%C3%A1g+%C3%BAt+2';
+
+const contactItems = [
+  {
+    icon: '📍',
+    label: '2021 Tahitótfalu, Ifjúság út 2.',
+    href: mapsUrl,
+  },
+  {
+    icon: '📞',
+    label: '+36 70 211 0674',
+    href: 'tel:+36702110674',
+  },
+  {
+    icon: '✉️',
+    label: 'dunakanyarnyomda@gmail.com',
+    href: 'mailto:dunakanyarnyomda@gmail.com',
+  },
+  {
+    icon: '🕒',
+    label: 'Hétfőtől péntekig: 8:30 – 16:30',
+  },
+];
 ---
 
-<section id="kapcsolat" class="section-shell pb-16 pt-20">
-  <div class="surface-card contact-map overflow-hidden">
-    <div class="grid items-stretch gap-0 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
-      <div class="contact-panel flex flex-col justify-center px-6 py-8 text-white sm:px-8 sm:py-10">
-        <p class="text-4xl font-extrabold uppercase leading-tight sm:text-5xl">
-          Minden, amire
-          <span class="block text-[var(--color-pink)]">szükséged van</span>
+<section id="kapcsolat" class="section-shell py-16">
+  <div class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_22px_70px_rgba(16,17,19,0.08)]">
+    <div class="grid gap-0 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
+      <div class="px-6 py-8 sm:px-8 lg:py-12">
+        <p class="text-sm font-extrabold uppercase tracking-[0.24em] text-[var(--color-blue)]">
+          Kapcsolat
         </p>
-        <div class="mt-8 space-y-4 text-base">
-          <a href="tel:+36301234567" class="flex items-center gap-4 hover:text-[var(--color-blue)]">
-            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-blue)] text-white">
-              <PhoneIcon class="h-5 w-5 fill-current" />
-            </span>
-            <span>
-              <span class="block text-lg font-bold uppercase tracking-wide">Kérj ajánlatot!</span>
-              <span class="block text-white/80">+36 30 123 4567</span>
-            </span>
-          </a>
-          <a href="mailto:info@dunakanyarnyomda.hu" class="block text-white/80 hover:text-white">
-            info@dunakanyarnyomda.hu
-          </a>
+        <h2 class="mt-4 text-3xl font-extrabold leading-tight tracking-tight text-[var(--color-ink)] sm:text-4xl">
+          Személyesen is várunk!
+        </h2>
+
+        <div class="mt-8 space-y-5">
+          {contactItems.map((item) => (
+            <div class="flex items-center gap-4">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-blue)]/10 text-xl">
+                {item.icon}
+              </span>
+              {item.href ? (
+                <a
+                  href={item.href}
+                  target={item.href === mapsUrl ? '_blank' : undefined}
+                  rel={item.href === mapsUrl ? 'noopener noreferrer' : undefined}
+                  class="text-base font-semibold text-[var(--color-ink)] hover:text-[var(--color-blue)]"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <span class="text-base font-semibold text-[var(--color-ink)]">{item.label}</span>
+              )}
+            </div>
+          ))}
         </div>
+
+        <a
+          href={mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="brand-button-primary mt-9 w-full sm:w-fit"
+        >
+          Útvonal tervezése
+          <span aria-hidden="true">→</span>
+        </a>
       </div>
 
-      <div class="relative min-h-[20rem]">
+      <a
+        href={mapsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group relative min-h-[22rem] overflow-hidden bg-slate-50 outline-none ring-inset ring-[var(--color-blue)] transition hover:brightness-[0.98] focus-visible:ring-4"
+        aria-label="Útvonal tervezése Google Mapsben a Dunakanyar Nyomdához"
+      >
         <img
           src={map.src}
-          alt="Térkép Tahitótfalu, Klapka utca környékéről"
-          class="h-full w-full object-cover"
+          alt="Térkép Tahitótfalu, Ifjúság út 2 környékéről"
+          class="h-full min-h-[22rem] w-full object-cover transition duration-300 group-hover:scale-[1.015]"
+          loading="lazy"
         />
-      </div>
+        <span class="absolute right-5 top-5 rounded-full bg-white/95 px-4 py-2 text-sm font-extrabold text-[var(--color-blue)] shadow-[0_12px_30px_rgba(16,17,19,0.12)]">
+          Google Maps →
+        </span>
+      </a>
     </div>
   </div>
 </section>
