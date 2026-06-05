@@ -1,0 +1,39 @@
+---
+import map from '../assets/map.svg';
+import PhoneIcon from './PhoneIcon.astro';
+---
+
+<section id="kapcsolat" class="section-shell pb-16 pt-20">
+  <div class="surface-card contact-map overflow-hidden">
+    <div class="grid items-stretch gap-0 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+      <div class="contact-panel flex flex-col justify-center px-6 py-8 text-white sm:px-8 sm:py-10">
+        <p class="text-4xl font-extrabold uppercase leading-tight sm:text-5xl">
+          Minden, amire
+          <span class="block text-[var(--color-pink)]">szükséged van</span>
+        </p>
+        <div class="mt-8 space-y-4 text-base">
+          <a href="tel:+36301234567" class="flex items-center gap-4 hover:text-[var(--color-blue)]">
+            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-blue)] text-white">
+              <PhoneIcon class="h-5 w-5 fill-current" />
+            </span>
+            <span>
+              <span class="block text-lg font-bold uppercase tracking-wide">Kérj ajánlatot!</span>
+              <span class="block text-white/80">+36 30 123 4567</span>
+            </span>
+          </a>
+          <a href="mailto:info@dunakanyarnyomda.hu" class="block text-white/80 hover:text-white">
+            info@dunakanyarnyomda.hu
+          </a>
+        </div>
+      </div>
+
+      <div class="relative min-h-[20rem]">
+        <img
+          src={map.src}
+          alt="Térkép Tahitótfalu, Klapka utca környékéről"
+          class="h-full w-full object-cover"
+        />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+---
+import logo from '../assets/logo.svg';
+import { quickLinks } from '../data/site';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-slate-200 bg-white">
+  <div class="section-shell grid gap-10 py-10 md:grid-cols-2 xl:grid-cols-[minmax(0,1.1fr)_repeat(3,minmax(0,0.63fr))]">
+    <div>
+      <img src={logo.src} alt="Dunakanyar Nyomda" class="h-auto w-56" />
+      <p class="mt-4 max-w-sm text-sm leading-7 text-[var(--color-muted)]">
+        Digitális és hagyományos nyomtatás, grafikai tervezés és teljes körű nyomdai megoldások a
+        Dunakanyarban.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-extrabold uppercase tracking-[0.22em] text-[var(--color-ink)]">
+        Gyors linkek
+      </h2>
+      <ul class="mt-4 space-y-3 text-sm text-[var(--color-muted)]">
+        {quickLinks.map((link) => (
+          <li>
+            <a href={link.href} class="hover:text-[var(--color-blue)]">{link.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-extrabold uppercase tracking-[0.22em] text-[var(--color-ink)]">
+        Elérhetőség
+      </h2>
+      <div class="mt-4 space-y-3 text-sm text-[var(--color-muted)]">
+        <a href="tel:+36301234567" class="block hover:text-[var(--color-blue)]">+36 30 123 4567</a>
+        <a href="mailto:info@dunakanyarnyomda.hu" class="block hover:text-[var(--color-blue)]">
+          info@dunakanyarnyomda.hu
+        </a>
+        <p>2022 Tahitótfalu, Klapka u.</p>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="text-sm font-extrabold uppercase tracking-[0.22em] text-[var(--color-ink)]">
+        Kövess minket
+      </h2>
+      <div class="mt-4">
+        <a
+          href="https://facebook.com"
+          target="_blank"
+          rel="noreferrer"
+          class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-blue)] text-xl font-extrabold text-white hover:-translate-y-0.5 hover:bg-[var(--color-blue-dark)]"
+          aria-label="Facebook"
+        >
+          f
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-[var(--color-blue)] py-4 text-center text-sm text-white">
+    © {currentYear} Dunakanyar Nyomda - Minden jog fenntartva.
+  </div>
+</footer>

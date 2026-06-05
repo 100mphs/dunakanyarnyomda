@@ -1,0 +1,30 @@
+---
+import logo from '../assets/logo.svg';
+import { quickLinks } from '../data/site';
+import PhoneIcon from './PhoneIcon.astro';
+---
+
+<header class="sticky top-0 z-50 border-b border-white/60 bg-white/88 backdrop-blur-xl">
+  <div class="section-shell flex flex-wrap items-center justify-between gap-5 py-4">
+    <a href="#fooldal" class="shrink-0" aria-label="Dunakanyar Nyomda">
+      <img src={logo.src} alt="Dunakanyar Nyomda" class="h-auto w-56 sm:w-64" />
+    </a>
+
+    <nav class="hidden items-center gap-8 text-sm font-bold uppercase tracking-wide text-[var(--color-ink)] lg:flex">
+      {quickLinks.map((link) => (
+        <a href={link.href} class="hover:text-[var(--color-blue)]">{link.label}</a>
+      ))}
+    </nav>
+
+    <a href="#kapcsolat" class="brand-button-primary">
+      <PhoneIcon class="h-4 w-4 fill-current" />
+      Kérj ajánlatot!
+    </a>
+
+    <nav class="flex w-full flex-wrap items-center justify-center gap-x-5 gap-y-3 border-t border-slate-100 pt-4 text-xs font-bold uppercase tracking-wide text-[var(--color-ink)] lg:hidden">
+      {quickLinks.map((link) => (
+        <a href={link.href} class="hover:text-[var(--color-blue)]">{link.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>

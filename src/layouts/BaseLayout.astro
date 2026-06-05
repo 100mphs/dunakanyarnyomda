@@ -1,0 +1,28 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Dunakanyar Nyomda',
+  description = 'Digitális és hagyományos nyomtatás, grafikai tervezés és teljes körű nyomdai megoldások Tahitótfaluban.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="hu">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

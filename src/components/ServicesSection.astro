@@ -1,0 +1,25 @@
+---
+import { services } from '../data/site';
+---
+
+<section id="szolgaltatasok" class="section-shell pt-20">
+  <h2 class="section-title">Szolgáltatásaink</h2>
+  <div class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+    {services.map((service) => (
+      <article class="service-card">
+        <img
+          src={service.icon.src}
+          alt=""
+          aria-hidden="true"
+          class="relative mx-auto h-20 w-20 object-contain"
+        />
+        <h3 class="relative mt-6 text-xl font-extrabold uppercase tracking-tight">
+          {service.title}
+        </h3>
+        <p class="relative mt-3 text-sm leading-7 text-[var(--color-muted)]">
+          {service.description}
+        </p>
+      </article>
+    ))}
+  </div>
+</section>
