@@ -5,9 +5,13 @@ import PhoneIcon from './PhoneIcon.astro';
 ---
 
 <header class="sticky top-0 z-50 border-b border-white/60 bg-white/88 backdrop-blur-xl">
-  <div class="section-shell flex flex-wrap items-center justify-between gap-5 py-4">
-    <a href="#fooldal" class="shrink-0" aria-label="Dunakanyar Nyomda">
-      <img src={logo.src} alt="Dunakanyar Nyomda" class="h-auto w-56 sm:w-64" />
+  <div class="section-shell flex min-h-[4.75rem] items-center justify-between gap-4 py-2 lg:min-h-0 lg:py-4">
+    <a href="#fooldal" class="relative z-[70] shrink-0" aria-label="Dunakanyar Nyomda" data-mobile-menu-link>
+      <img
+        src={logo.src}
+        alt="Dunakanyar Nyomda"
+        class="h-auto max-h-16 w-[12.5rem] object-contain sm:w-[13.75rem] lg:w-56 xl:w-64"
+      />
     </a>
 
     <nav class="hidden items-center gap-8 text-sm font-bold uppercase tracking-wide text-[var(--color-ink)] lg:flex">
@@ -16,15 +20,166 @@ import PhoneIcon from './PhoneIcon.astro';
       ))}
     </nav>
 
-    <button type="button" class="brand-button-primary" data-quote-open>
+    <button type="button" class="brand-button-primary hidden lg:inline-flex" data-quote-open>
       <PhoneIcon class="h-4 w-4 fill-current" />
       Kérj ajánlatot!
     </button>
 
-    <nav class="flex w-full flex-wrap items-center justify-center gap-x-5 gap-y-3 border-t border-slate-100 pt-4 text-xs font-bold uppercase tracking-wide text-[var(--color-ink)] lg:hidden">
-      {quickLinks.map((link) => (
-        <a href={link.href} class="hover:text-[var(--color-blue)]">{link.label}</a>
-      ))}
-    </nav>
+    <button
+      type="button"
+      class="relative z-[70] flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-white text-[var(--color-ink)] shadow-[0_10px_26px_rgba(16,17,19,0.08)] lg:hidden"
+      aria-label="Menü megnyitása"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      data-mobile-menu-toggle
+    >
+      <span class="sr-only">Menü</span>
+      <span class="relative h-5 w-6" aria-hidden="true">
+        <span class="absolute left-0 top-0 h-0.5 w-6 rounded-full bg-current transition duration-200" data-menu-line="top"></span>
+        <span class="absolute left-0 top-1/2 h-0.5 w-6 -translate-y-1/2 rounded-full bg-current transition duration-200" data-menu-line="middle"></span>
+        <span class="absolute bottom-0 left-0 h-0.5 w-6 rounded-full bg-current transition duration-200" data-menu-line="bottom"></span>
+      </span>
+    </button>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-[60] hidden bg-slate-950/35 opacity-0 backdrop-blur-sm transition-opacity duration-200 lg:hidden"
+    data-mobile-menu
+    aria-hidden="true"
+  >
+    <div
+      class="ml-auto flex h-full w-full max-w-sm translate-x-full flex-col bg-white px-6 pb-8 pt-28 shadow-[0_30px_80px_rgba(16,17,19,0.22)] transition-transform duration-300"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Mobil navigáció"
+      data-mobile-menu-panel
+    >
+      <nav class="grid gap-2 text-lg font-extrabold text-[var(--color-ink)]">
+        {quickLinks.map((link) => (
+          <a
+            href={link.href}
+            class="rounded-2xl px-4 py-4 hover:bg-slate-50 hover:text-[var(--color-blue)]"
+            data-mobile-menu-link
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <div class="mt-auto border-t border-slate-200 pt-6">
+        <a
+          href="tel:+36702110674"
+          class="block rounded-2xl bg-slate-50 px-4 py-4 text-lg font-extrabold text-[var(--color-ink)] hover:text-[var(--color-blue)]"
+          data-mobile-menu-link
+        >
+          +36 70 211 0674
+        </a>
+        <button
+          type="button"
+          class="brand-button-primary mt-4 w-full"
+          data-quote-open
+          data-mobile-menu-link
+        >
+          Ajánlatot kérek
+        </button>
+      </div>
+    </div>
   </div>
 </header>
+
+<script>
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const panel = document.querySelector<HTMLElement>('[data-mobile-menu-panel]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-mobile-menu-toggle]');
+  const topLine = document.querySelector<HTMLElement>('[data-menu-line="top"]');
+  const middleLine = document.querySelector<HTMLElement>('[data-menu-line="middle"]');
+  const bottomLine = document.querySelector<HTMLElement>('[data-menu-line="bottom"]');
+  let lastFocusedElement: Element | null = null;
+
+  const focusableSelector = 'a[href], button:not([disabled])';
+
+  const getFocusableItems = () =>
+    Array.from(panel?.querySelectorAll<HTMLElement>(focusableSelector) ?? []).filter(
+      (item) => !item.hasAttribute('hidden') && item.tabIndex !== -1,
+    );
+
+  const setIconState = (isOpen: boolean) => {
+    topLine?.classList.toggle('top-1/2', isOpen);
+    topLine?.classList.toggle('-translate-y-1/2', isOpen);
+    topLine?.classList.toggle('rotate-45', isOpen);
+    middleLine?.classList.toggle('opacity-0', isOpen);
+    bottomLine?.classList.toggle('bottom-auto', isOpen);
+    bottomLine?.classList.toggle('top-1/2', isOpen);
+    bottomLine?.classList.toggle('-translate-y-1/2', isOpen);
+    bottomLine?.classList.toggle('-rotate-45', isOpen);
+    toggle?.setAttribute('aria-label', isOpen ? 'Menü bezárása' : 'Menü megnyitása');
+  };
+
+  const openMenu = () => {
+    if (!menu || !panel || !toggle) return;
+    lastFocusedElement = document.activeElement;
+    menu.classList.remove('hidden');
+    menu.setAttribute('aria-hidden', 'false');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.documentElement.style.overflow = 'hidden';
+    setIconState(true);
+    requestAnimationFrame(() => {
+      menu.classList.remove('opacity-0');
+      panel.classList.remove('translate-x-full');
+      getFocusableItems()[0]?.focus();
+    });
+  };
+
+  const closeMenu = (restoreFocus = true) => {
+    if (!menu || !panel || !toggle || menu.classList.contains('hidden')) return;
+    menu.classList.add('opacity-0');
+    panel.classList.add('translate-x-full');
+    menu.setAttribute('aria-hidden', 'true');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.documentElement.style.overflow = '';
+    setIconState(false);
+    window.setTimeout(() => {
+      menu.classList.add('hidden');
+      if (restoreFocus && lastFocusedElement instanceof HTMLElement) lastFocusedElement.focus();
+    }, 220);
+  };
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    if (isOpen) closeMenu();
+    else openMenu();
+  });
+
+  menu?.addEventListener('click', (event) => {
+    if (event.target === menu) closeMenu();
+  });
+
+  document.querySelectorAll('[data-mobile-menu-link]').forEach((item) => {
+    item.addEventListener('click', () => closeMenu(false));
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (!menu || menu.classList.contains('hidden')) return;
+
+    if (event.key === 'Escape') {
+      closeMenu();
+      return;
+    }
+
+    if (event.key !== 'Tab') return;
+
+    const focusableItems = getFocusableItems();
+    const firstItem = focusableItems[0];
+    const lastItem = focusableItems[focusableItems.length - 1];
+    if (!firstItem || !lastItem) return;
+
+    if (event.shiftKey && document.activeElement === firstItem) {
+      event.preventDefault();
+      lastItem.focus();
+    } else if (!event.shiftKey && document.activeElement === lastItem) {
+      event.preventDefault();
+      firstItem.focus();
+    }
+  });
+</script>
