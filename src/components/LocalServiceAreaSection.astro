@@ -1,0 +1,68 @@
+---
+const settlements = [
+  'Tahitótfalu',
+  'Leányfalu',
+  'Dunabogdány',
+  'Visegrád',
+  'Kisoroszi',
+  'Pócsmegyer',
+  'Szigetmonostor',
+  'Horány',
+  'Surány',
+];
+
+const accentClasses = [
+  'border-[var(--color-blue)]/20 bg-[var(--color-blue)]/10 text-[var(--color-blue)]',
+  'border-[var(--color-pink)]/20 bg-[var(--color-pink)]/10 text-[var(--color-pink)]',
+  'border-[var(--color-yellow)]/30 bg-[var(--color-yellow)]/15 text-[var(--color-ink)]',
+];
+---
+
+<section class="section-shell pb-16">
+  <div class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_22px_70px_rgba(16,17,19,0.08)] sm:p-8 lg:p-10">
+    <div class="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
+      <div>
+        <p class="text-sm font-extrabold uppercase tracking-[0.24em] text-[var(--color-blue)]">
+          Helyi szolgáltatás
+        </p>
+        <h2 class="mt-4 text-3xl font-extrabold leading-tight tracking-tight text-[var(--color-ink)] sm:text-4xl">
+          Nyomdai szolgáltatások a Dunakanyarban
+        </h2>
+        <p class="mt-5 text-base leading-8 text-[var(--color-muted)]">
+          Tahitótfaluban várunk személyesen, de rendszeresen dolgozunk a környező települések
+          lakossági és üzleti ügyfeleinek is.
+        </p>
+      </div>
+
+      <div>
+        <div class="flex flex-wrap gap-3">
+          {settlements.map((settlement, index) => (
+            <span
+              class={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-extrabold ${accentClasses[index % accentClasses.length]}`}
+            >
+              <span aria-hidden="true">📍</span>
+              {settlement}
+            </span>
+          ))}
+        </div>
+
+        <p class="mt-6 rounded-2xl bg-slate-50 px-5 py-4 text-sm font-semibold leading-7 text-[var(--color-muted)]">
+          Dokumentum nyomtatás, fénymásolás, spirálozás, laminálás, szórólapok, névjegykártyák és
+          grafikai tervezés helyben, gyors határidővel.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-8 border-t border-slate-200 pt-7">
+      <h3 class="text-xl font-extrabold tracking-tight text-[var(--color-ink)]">
+        Lakossági és üzleti nyomdai szolgáltatások
+      </h3>
+      <p class="mt-3 max-w-4xl text-base leading-8 text-[var(--color-muted)]">
+        A Dunakanyar Nyomda Tahitótfaluban működik, és a környező települések ügyfeleit is
+        kiszolgálja. Legyen szó dokumentumok nyomtatásáról, fénymásolásról, spirálozásról,
+        laminálásról, névjegykártyákról, szórólapokról vagy grafikai tervezésről, gyors és
+        megbízható megoldásokat kínálunk a Dunakanyar térségében.
+      </p>
+    </div>
+  </div>
+</section>

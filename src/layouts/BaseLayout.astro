@@ -1,16 +1,91 @@
 ---
 import '../styles/global.css';
 import QuoteModal from '../components/QuoteModal.astro';
+import heroProductShowcase from '../assets/hero-product-showcase.png';
 
 interface Props {
   title?: string;
   description?: string;
+  canonicalUrl?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
 }
 
 const {
   title = 'Dunakanyar Nyomda',
   description = 'Digitális és hagyományos nyomtatás, grafikai tervezés és teljes körű nyomdai megoldások Tahitótfaluban.',
+  canonicalUrl = 'https://dunakanyarnyomda.hu/',
+  ogTitle = 'Dunakanyar Nyomda',
+  ogDescription = 'Gyors nyomdai megoldások Tahitótfaluban és a Dunakanyar térségében.',
+  ogImage = new URL(heroProductShowcase.src, canonicalUrl).toString(),
 } = Astro.props;
+
+const serviceArea = [
+  'Tahitótfalu',
+  'Leányfalu',
+  'Dunabogdány',
+  'Visegrád',
+  'Kisoroszi',
+  'Pócsmegyer',
+  'Szigetmonostor',
+  'Horány',
+  'Surány',
+];
+
+const services = [
+  'Nyomtatás',
+  'Fénymásolás',
+  'Szkennelés',
+  'Spirálozás',
+  'Laminálás',
+  'Névjegykártya nyomtatás',
+  'Szórólap nyomtatás',
+  'Poszter nyomtatás',
+  'Grafikai tervezés',
+];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${canonicalUrl}#localbusiness`,
+  name: 'Dunakanyar Nyomda',
+  url: canonicalUrl,
+  image: ogImage,
+  telephone: '+36 70 211 0674',
+  email: 'dunakanyarnyomda@gmail.com',
+  priceRange: 'Ft',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Ifjúság út 2.',
+    addressLocality: 'Tahitótfalu',
+    postalCode: '2021',
+    addressCountry: 'HU',
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '08:30',
+      closes: '16:30',
+    },
+  ],
+  areaServed: serviceArea.map((name) => ({
+    '@type': 'Place',
+    name,
+  })),
+  makesOffer: {
+    '@type': 'OfferCatalog',
+    name: 'Nyomdai szolgáltatások',
+    itemListElement: services.map((name) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name,
+      },
+    })),
+  },
+};
 ---
 
 <!doctype html>
@@ -20,7 +95,18 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5BZJ1P3H53"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];

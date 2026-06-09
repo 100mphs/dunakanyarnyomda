@@ -6,11 +6,15 @@ import ServicesSection from '../components/ServicesSection.astro';
 import PriceSection from '../components/PriceSection.astro';
 import AboutSection from '../components/AboutSection.astro';
 import ContactSection from '../components/ContactSection.astro';
+import LocalServiceAreaSection from '../components/LocalServiceAreaSection.astro';
 import QuoteCtaStrip from '../components/QuoteCtaStrip.astro';
 import Footer from '../components/Footer.astro';
 ---
 
-<BaseLayout>
+<BaseLayout
+  title="Dunakanyar Nyomda | Nyomtatás Tahitótfaluban"
+  description="Nyomtatás, fénymásolás, spirálozás, laminálás és grafikai tervezés Tahitótfaluban, lakossági és üzleti ügyfeleknek a Dunakanyarban."
+>
   <Header />
 
   <main id="fooldal">
@@ -19,6 +23,7 @@ import Footer from '../components/Footer.astro';
     <PriceSection />
     <AboutSection />
     <ContactSection />
+    <LocalServiceAreaSection />
     <QuoteCtaStrip />
   </main>
 

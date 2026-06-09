@@ -8,6 +8,8 @@ const contactItems = [
   {
     icon: '📍',
     label: '2021 Tahitótfalu, Ifjúság út 2.',
+    description:
+      'Kiszolgált területek: Tahitótfalu, Leányfalu, Dunabogdány, Visegrád, Kisoroszi, Pócsmegyer, Szigetmonostor, Horány és Surány.',
     href: mapsUrl,
   },
   {
@@ -45,14 +47,21 @@ const contactItems = [
                 {item.icon}
               </span>
               {item.href ? (
-                <a
-                  href={item.href}
-                  target={item.href === mapsUrl ? '_blank' : undefined}
-                  rel={item.href === mapsUrl ? 'noopener noreferrer' : undefined}
-                  class="text-base font-semibold text-[var(--color-ink)] hover:text-[var(--color-blue)]"
-                >
-                  {item.label}
-                </a>
+                <div>
+                  <a
+                    href={item.href}
+                    target={item.href === mapsUrl ? '_blank' : undefined}
+                    rel={item.href === mapsUrl ? 'noopener noreferrer' : undefined}
+                    class="text-base font-semibold text-[var(--color-ink)] hover:text-[var(--color-blue)]"
+                  >
+                    {item.label}
+                  </a>
+                  {item.description && (
+                    <p class="mt-1 max-w-md text-sm leading-6 text-[var(--color-muted)]">
+                      {item.description}
+                    </p>
+                  )}
+                </div>
               ) : (
                 <span class="text-base font-semibold text-[var(--color-ink)]">{item.label}</span>
               )}
