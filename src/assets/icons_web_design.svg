@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 240" role="img" aria-label="Weboldal ikon">
+  <g fill="none" stroke="#7C4DFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="12">
+    <rect x="18" y="22" width="244" height="176" rx="18" />
+    <path d="M18 62h244" />
+    <path d="M48 42h1M75 42h1M102 42h1" stroke-width="14" />
+    <path d="m100 102-34 28 34 28M180 102l34 28-34 28M157 91l-34 78" />
+    <path d="M101 218h78" />
+  </g>
+</svg>

@@ -52,9 +52,10 @@ export const pricingCatalog: PriceEntry[] = [
             columns: ['A5', 'A4', 'A3'],
             accent: 'navy',
             rows: [
-              { label: '1–20 oldal', values: [40, 50, 100] },
-              { label: '21–100 oldal', values: [20, 40, 80] },
-              { label: '101+ oldal', values: [15, 30, 60] },
+              { label: '1–4 oldal', values: [100, 150, 250] },
+              { label: '5–9 oldal', values: [70, 100, 180] },
+              { label: '10–49 oldal', values: [40, 50, 100] },
+              { label: '50+ oldal', values: [20, 40, 80] },
             ],
           },
           {
@@ -63,9 +64,10 @@ export const pricingCatalog: PriceEntry[] = [
             columns: ['A5', 'A4', 'A3'],
             accent: 'pink',
             rows: [
-              { label: '1–20 oldal', values: [120, 180, 360] },
-              { label: '21–100 oldal', values: [100, 150, 300] },
-              { label: '101+ oldal', values: [80, 120, 240] },
+              { label: '1–4 oldal', values: [150, 200, 400] },
+              { label: '5–9 oldal', values: [120, 180, 360] },
+              { label: '10–49 oldal', values: [100, 150, 300] },
+              { label: '50+ oldal', values: [80, 120, 240] },
             ],
           },
         ],
@@ -80,9 +82,10 @@ export const pricingCatalog: PriceEntry[] = [
             columns: ['A5', 'A4', 'A3'],
             accent: 'navy',
             rows: [
-              { label: '1–20 oldal', values: [45, 60, 120] },
-              { label: '21–100 oldal', values: [35, 50, 100] },
-              { label: '101+ oldal', values: [25, 40, 80] },
+              { label: '1–4 oldal', values: [150, 220, 370] },
+              { label: '5–9 oldal', values: [100, 150, 270] },
+              { label: '10–49 oldal', values: [60, 70, 150] },
+              { label: '50+ oldal', values: [30, 60, 120] },
             ],
           },
           {
@@ -91,9 +94,10 @@ export const pricingCatalog: PriceEntry[] = [
             columns: ['A5', 'A4', 'A3'],
             accent: 'pink',
             rows: [
-              { label: '1–20 oldal', values: [150, 220, 440] },
-              { label: '21–100 oldal', values: [120, 180, 360] },
-              { label: '101+ oldal', values: [100, 150, 300] },
+              { label: '1–4 oldal', values: [220, 300, 600] },
+              { label: '5–9 oldal', values: [180, 270, 540] },
+              { label: '10–49 oldal', values: [150, 220, 450] },
+              { label: '50+ oldal', values: [120, 180, 360] },
             ],
           },
         ],
@@ -108,8 +112,10 @@ export const pricingCatalog: PriceEntry[] = [
             columns: ['A5', 'A4', 'A3'],
             accent: 'navy',
             rows: [
-              { label: '1–20 oldal', values: [120, 180, 360] },
-              { label: '21+ oldal', values: [100, 150, 300] },
+              { label: '1–4 oldal', values: [200, 300, 500] },
+              { label: '5–9 oldal', values: [140, 200, 360] },
+              { label: '10–49 oldal', values: [80, 100, 200] },
+              { label: '50+ oldal', values: [40, 80, 160] },
             ],
           },
           {
@@ -118,8 +124,10 @@ export const pricingCatalog: PriceEntry[] = [
             columns: ['A5', 'A4', 'A3'],
             accent: 'pink',
             rows: [
-              { label: '1–20 oldal', values: [300, 450, 900] },
-              { label: '21+ oldal', values: [250, 400, 800] },
+              { label: '1–4 oldal', values: [300, 400, 800] },
+              { label: '5–9 oldal', values: [240, 360, 720] },
+              { label: '10–49 oldal', values: [200, 300, 600] },
+              { label: '50+ oldal', values: [160, 240, 480] },
             ],
           },
         ],
@@ -216,7 +224,7 @@ export const pricingCatalog: PriceEntry[] = [
   {
     id: 'laminalas',
     title: 'Laminálás',
-    subtitle: '80 mikronos lamináló fóliával',
+    subtitle: '100 mikronos prémium lamináló fóliával',
     categories: [
       {
         title: 'Méret szerinti árak',
@@ -254,9 +262,9 @@ export const pricingCatalog: PriceEntry[] = [
             columns: ['Egyoldalas', 'Kétoldalas'],
             accent: 'navy',
             rows: [
-              { label: '50–99 db', values: [100, 130] },
-              { label: '100–299 db', values: [70, 100] },
-              { label: '300+ db', values: [50, 70] },
+              { label: '50–99 db', values: [120, 180] },
+              { label: '100–299 db', values: [90, 150] },
+              { label: '300+ db', values: [80, 120] },
             ],
           },
         ],
@@ -267,12 +275,11 @@ export const pricingCatalog: PriceEntry[] = [
   {
     id: 'szorolap',
     title: 'Szórólap nyomtatás',
-    subtitle: '120g fényes műnyomó papír',
+    subtitle: '120g fényes prémium papír',
     pricingUnit: 'A megadott árak forintban értendők és 1 lapra vonatkoznak.',
     categories: [
       {
-        title: 'Standard szórólap',
-        badge: 'Fehér szegéllyel',
+        title: 'Szórólap',
         accent: 'navy',
         tables: [
           {
@@ -282,9 +289,9 @@ export const pricingCatalog: PriceEntry[] = [
             columns: ['Egyoldalas', 'Kétoldalas'],
             accent: 'navy',
             rows: [
-              { label: '1–99 db', values: [80, 100] },
-              { label: '100–299 db', values: [60, 80] },
-              { label: '300+ db', values: [45, 65] },
+              { label: '1–99 db', values: [100, 130] },
+              { label: '100–299 db', values: [80, 110] },
+              { label: '300+ db', values: [50, 70] },
             ],
           },
           {
@@ -294,40 +301,9 @@ export const pricingCatalog: PriceEntry[] = [
             columns: ['Egyoldalas', 'Kétoldalas'],
             accent: 'navy',
             rows: [
-              { label: '1–99 db', values: [100, 130] },
-              { label: '100–299 db', values: [80, 110] },
-              { label: '300+ db', values: [60, 85] },
-            ],
-          },
-        ],
-      },
-      {
-        title: 'Szegély nélküli szórólap',
-        badge: 'Teljes kifutós kivitel',
-        accent: 'pink',
-        tables: [
-          {
-            title: 'A6',
-            subtitle: '105 × 148 mm',
-            rowHeader: 'Mennyiség',
-            columns: ['Egyoldalas', 'Kétoldalas'],
-            accent: 'pink',
-            rows: [
-              { label: '1–99 db', values: [110, 140] },
-              { label: '100–299 db', values: [85, 115] },
-              { label: '300+ db', values: [65, 95] },
-            ],
-          },
-          {
-            title: 'A5',
-            subtitle: '210 × 148 mm',
-            rowHeader: 'Mennyiség',
-            columns: ['Egyoldalas', 'Kétoldalas'],
-            accent: 'pink',
-            rows: [
               { label: '1–99 db', values: [130, 160] },
               { label: '100–299 db', values: [100, 140] },
-              { label: '300+ db', values: [75, 110] },
+              { label: '300+ db', values: [70, 90] },
             ],
           },
         ],

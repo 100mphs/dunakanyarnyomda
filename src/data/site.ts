@@ -3,6 +3,7 @@ import iconFlyer from '../assets/icons_flyer.svg';
 import iconBusinessCard from '../assets/icons_business_card.svg';
 import iconGraphicDesign from '../assets/icons_graphic_design.svg';
 import iconPoster from '../assets/icons_poster.svg';
+import iconWebDesign from '../assets/icons_web_design.svg';
 
 export const services = [
   {
@@ -49,6 +50,11 @@ export const services = [
     title: 'Grafikai tervezés',
     description: 'Logó, arculat, kiadvány és nyomdai előkészítés egy helyen.',
     icon: iconGraphicDesign,
+  },
+  {
+    title: 'Weboldaltervezés és -fejlesztés',
+    description: 'Modern, mobilbarát üzleti weboldalak az ötlettől a megvalósításig.',
+    icon: iconWebDesign,
   },
 ];
 

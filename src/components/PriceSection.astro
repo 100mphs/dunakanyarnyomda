@@ -8,7 +8,8 @@ type Accent =
   | 'spiral'
   | 'laminate'
   | 'scan'
-  | 'copy';
+  | 'copy'
+  | 'web';
 
 type PriceRow = {
   label: string;
@@ -33,6 +34,7 @@ const accentMap: Record<Accent, string> = {
   laminate: '#00ACC1',
   scan: '#4CAF50',
   copy: '#0B5FFF',
+  web: '#7C4DFF',
 };
 
 const serviceOrder = [
@@ -45,6 +47,7 @@ const serviceOrder = [
   'nevjegykartyak',
   'poszterek',
   'grafikai-tervezes',
+  'weboldal-keszites',
 ] as const;
 
 const orderIndex = (id: string) => serviceOrder.indexOf(id as (typeof serviceOrder)[number]);
@@ -55,14 +58,16 @@ const printingPapers = [
     title: '80 g normál papír',
     sizes: ['A5', 'A4', 'A3'],
     bw: [
-      { label: '1-20 oldal', prices: { A5: 40, A4: 50, A3: 100 } },
-      { label: '21-100 oldal', prices: { A5: 20, A4: 40, A3: 80 } },
-      { label: '101+ oldal', prices: { A5: 15, A4: 30, A3: 60 } },
+      { label: '1-4 oldal', prices: { A5: 100, A4: 150, A3: 250 } },
+      { label: '5-9 oldal', prices: { A5: 70, A4: 100, A3: 180 } },
+      { label: '10-49 oldal', prices: { A5: 40, A4: 50, A3: 100 } },
+      { label: '50+ oldal', prices: { A5: 20, A4: 40, A3: 80 } },
     ],
     color: [
-      { label: '1-20 oldal', prices: { A5: 120, A4: 180, A3: 360 } },
-      { label: '21-100 oldal', prices: { A5: 100, A4: 150, A3: 300 } },
-      { label: '101+ oldal', prices: { A5: 80, A4: 120, A3: 240 } },
+      { label: '1-4 oldal', prices: { A5: 150, A4: 200, A3: 400 } },
+      { label: '5-9 oldal', prices: { A5: 120, A4: 180, A3: 360 } },
+      { label: '10-49 oldal', prices: { A5: 100, A4: 150, A3: 300 } },
+      { label: '50+ oldal', prices: { A5: 80, A4: 120, A3: 240 } },
     ],
   },
   {
@@ -70,14 +75,16 @@ const printingPapers = [
     title: '120 g prémium papír',
     sizes: ['A5', 'A4', 'A3'],
     bw: [
-      { label: '1-20 oldal', prices: { A5: 45, A4: 60, A3: 120 } },
-      { label: '21-100 oldal', prices: { A5: 35, A4: 50, A3: 100 } },
-      { label: '101+ oldal', prices: { A5: 25, A4: 40, A3: 80 } },
+      { label: '1-4 oldal', prices: { A5: 150, A4: 220, A3: 370 } },
+      { label: '5-9 oldal', prices: { A5: 100, A4: 150, A3: 270 } },
+      { label: '10-49 oldal', prices: { A5: 60, A4: 70, A3: 150 } },
+      { label: '50+ oldal', prices: { A5: 30, A4: 60, A3: 120 } },
     ],
     color: [
-      { label: '1-20 oldal', prices: { A5: 150, A4: 220, A3: 440 } },
-      { label: '21-100 oldal', prices: { A5: 120, A4: 180, A3: 360 } },
-      { label: '101+ oldal', prices: { A5: 100, A4: 150, A3: 300 } },
+      { label: '1-4 oldal', prices: { A5: 220, A4: 300, A3: 600 } },
+      { label: '5-9 oldal', prices: { A5: 180, A4: 270, A3: 540 } },
+      { label: '10-49 oldal', prices: { A5: 150, A4: 220, A3: 450 } },
+      { label: '50+ oldal', prices: { A5: 120, A4: 180, A3: 360 } },
     ],
   },
   {
@@ -85,12 +92,16 @@ const printingPapers = [
     title: '300 g karton',
     sizes: ['A5', 'A4', 'A3'],
     bw: [
-      { label: '1-20 oldal', prices: { A5: 120, A4: 180, A3: 360 } },
-      { label: '21+ oldal', prices: { A5: 100, A4: 150, A3: 300 } },
+      { label: '1-4 oldal', prices: { A5: 200, A4: 300, A3: 500 } },
+      { label: '5-9 oldal', prices: { A5: 140, A4: 200, A3: 360 } },
+      { label: '10-49 oldal', prices: { A5: 80, A4: 100, A3: 200 } },
+      { label: '50+ oldal', prices: { A5: 40, A4: 80, A3: 160 } },
     ],
     color: [
-      { label: '1-20 oldal', prices: { A5: 300, A4: 450, A3: 900 } },
-      { label: '21+ oldal', prices: { A5: 250, A4: 400, A3: 800 } },
+      { label: '1-4 oldal', prices: { A5: 300, A4: 400, A3: 800 } },
+      { label: '5-9 oldal', prices: { A5: 240, A4: 360, A3: 720 } },
+      { label: '10-49 oldal', prices: { A5: 200, A4: 300, A3: 600 } },
+      { label: '50+ oldal', prices: { A5: 160, A4: 240, A3: 480 } },
     ],
   },
 ];
@@ -109,52 +120,32 @@ const accordionItems = [
     id: 'szorolapok',
     icon: '▤',
     title: 'Szórólapok',
-    summary: '120 g fényes műnyomó papír, standard vagy teljes kifutós kivitel.',
+    summary: '120 g fényes prémium papír, A6 és A5 méretben.',
     accent: 'flyer',
     badge: 'Népszerű',
     kind: 'tables',
-    search: 'szórólapok szorolap a6 a5 egyoldalas kétoldalas népszerű',
+    search: 'szórólapok szorolap a6 a5 egyoldalas kétoldalas 120g fényes prémium papír népszerű',
     tables: [
       {
-        title: 'Standard - A6',
-        subtitle: 'Fehér szegély',
-        rowHeader: 'Mennyiség',
-        columns: ['Egyoldalas', 'Kétoldalas'],
-        rows: [
-          { label: '1-99 db', values: [80, 100] },
-          { label: '100-299 db', values: [60, 80] },
-          { label: '300+ db', values: [45, 65] },
-        ],
-      },
-      {
-        title: 'Standard - A5',
-        subtitle: 'Fehér szegély',
+        title: 'A6',
+        subtitle: '105 × 148 mm',
         rowHeader: 'Mennyiség',
         columns: ['Egyoldalas', 'Kétoldalas'],
         rows: [
           { label: '1-99 db', values: [100, 130] },
           { label: '100-299 db', values: [80, 110] },
-          { label: '300+ db', values: [60, 85] },
+          { label: '300+ db', values: [50, 70] },
         ],
       },
       {
-        title: 'Teljes kifutós - A6',
-        rowHeader: 'Mennyiség',
-        columns: ['Egyoldalas', 'Kétoldalas'],
-        rows: [
-          { label: '1-99 db', values: [110, 140] },
-          { label: '100-299 db', values: [85, 115] },
-          { label: '300+ db', values: [65, 95] },
-        ],
-      },
-      {
-        title: 'Teljes kifutós - A5',
+        title: 'A5',
+        subtitle: '210 × 148 mm',
         rowHeader: 'Mennyiség',
         columns: ['Egyoldalas', 'Kétoldalas'],
         rows: [
           { label: '1-99 db', values: [130, 160] },
           { label: '100-299 db', values: [100, 140] },
-          { label: '300+ db', values: [75, 110] },
+          { label: '300+ db', values: [70, 90] },
         ],
       },
     ],
@@ -175,9 +166,9 @@ const accordionItems = [
         rowHeader: 'Mennyiség',
         columns: ['Egyoldalas', 'Kétoldalas'],
         rows: [
-          { label: '50-99 db', values: [100, 130] },
-          { label: '100-299 db', values: [70, 100] },
-          { label: '300+ db', values: [50, 70] },
+          { label: '50-99 db', values: [120, 180] },
+          { label: '100-299 db', values: [90, 150] },
+          { label: '300+ db', values: [80, 120] },
         ],
       },
     ],
@@ -201,7 +192,7 @@ const accordionItems = [
     accent: 'design',
     kind: 'list',
     search: 'grafikai tervezés logo arculat névjegykártya szórólap plakát előkészítés',
-    price: '6500 Ft / megkezdett óra',
+    price: '2 000 Ft / megkezdett 15 perc',
     features: [
       'Logótervezés',
       'Arculattervezés',
@@ -209,6 +200,25 @@ const accordionItems = [
       'Szórólap tervezés',
       'Plakát tervezés',
       'Nyomdai előkészítés',
+    ],
+  },
+  {
+    id: 'weboldal-keszites',
+    icon: '</>',
+    title: 'Weboldaltervezés és -fejlesztés',
+    summary: 'Modern, reszponzív üzleti weboldalak tervezése és fejlesztése.',
+    accent: 'web',
+    kind: 'list',
+    search: 'weboldal tervezés fejlesztés webdesign honlap reszponzív üzleti oldal',
+    price: '60 000 Ft + ÁFA-tól',
+    taxNote: 'A feltüntetett induló ár nettó ár, az ÁFA-t nem tartalmazza.',
+    features: [
+      'Egyedi megjelenés',
+      'Mobilbarát kialakítás',
+      'Gyors és modern technológia',
+      'Kapcsolati és ajánlatkérő űrlapok',
+      'Keresőbarát alapbeállítások',
+      'Igényre szabott funkciók',
     ],
   },
   {
@@ -289,13 +299,13 @@ const accordionItems = [
     id: 'laminalas',
     icon: '◇',
     title: 'Laminálás',
-    summary: '80 mikronos fólia több méretben.',
+    summary: '100 mikronos prémium fólia több méretben.',
     accent: 'laminate',
     kind: 'tables',
-    search: 'laminálás laminalas 80 mikron fólia a5 a4 a3 névjegy a6',
+    search: 'laminálás laminalas 100 mikron prémium fólia a5 a4 a3 névjegy a6',
     tables: [
       {
-        title: '80 mikronos fólia',
+        title: '100 mikronos prémium lamináló fólia',
         rowHeader: 'Mennyiség',
         columns: ['A5', 'A4', 'A3', 'Névjegy/A6'],
         rows: [
@@ -328,7 +338,7 @@ const formatPrice = (value: number | string) =>
           Gyorsan megtalálod, amit keresel.
         </p>
         <p class="mt-2 max-w-xl text-base leading-7 text-[var(--color-muted)]">
-          Áraink <span class="font-extrabold text-[var(--color-blue)]">bruttó árak</span>, az ÁFA-t tartalmazzák.
+          Nyomdai áraink <span class="font-extrabold text-[var(--color-blue)]">bruttó árak</span>, az ÁFA-t tartalmazzák.
         </p>
       </div>
 
@@ -383,7 +393,9 @@ const formatPrice = (value: number | string) =>
 
             <div class="border-t border-slate-100 px-4 pb-5 sm:px-6 sm:pb-6">
               <div class="mb-5 mt-4 rounded-2xl border border-[color:var(--accent)]/15 bg-[color:var(--accent)]/5 px-4 py-3 text-sm font-bold text-[var(--color-ink)]">
-                Az árak bruttó árak, az ÁFA-t tartalmazzák.
+                {'taxNote' in item && item.taxNote
+                  ? item.taxNote
+                  : 'Az árak bruttó árak, az ÁFA-t tartalmazzák.'}
               </div>
 
               {item.kind === 'printing' && (
