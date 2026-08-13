@@ -1,0 +1,190 @@
+---
+interface Props {
+  measurementId: string;
+}
+
+const { measurementId } = Astro.props;
+---
+
+<section
+  class="fixed inset-x-3 bottom-3 z-[120] hidden sm:inset-x-5 sm:bottom-5"
+  data-cookie-banner
+  data-measurement-id={measurementId}
+  aria-label="Sütibeállítások"
+>
+  <div class="mx-auto flex max-w-5xl flex-col gap-4 rounded-2xl border border-slate-200 bg-white/98 p-4 shadow-[0_18px_60px_rgba(2,20,45,0.22)] backdrop-blur-xl sm:p-5 lg:flex-row lg:items-center lg:justify-between">
+    <div class="max-w-2xl">
+      <div class="flex items-center gap-2">
+        <span class="text-lg" aria-hidden="true">🍪</span>
+        <h2 class="text-base font-extrabold text-[var(--color-ink)]">Statisztikai sütik</h2>
+      </div>
+      <p class="mt-1 text-sm leading-6 text-[var(--color-muted)]">
+        Az oldal működéséhez szükséges tárolást használunk. A Google Analytics csak az engedélyed
+        után indul el, hogy névtelen látogatottsági statisztikát készítsünk.
+        <a href="/suti-tajekoztato" class="font-bold text-[var(--color-blue-dark)] underline underline-offset-2">
+          Részletek
+        </a>
+      </p>
+      <p class="mt-1 hidden text-xs font-semibold text-[var(--color-muted)]" data-cookie-status></p>
+    </div>
+
+    <div class="grid shrink-0 grid-cols-2 gap-2 sm:flex">
+      <button
+        type="button"
+        class="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-[var(--color-blue)] bg-white px-4 text-sm font-extrabold text-[var(--color-blue-dark)] hover:bg-sky-50 sm:min-w-36"
+        data-cookie-deny
+      >
+        Elutasítom
+      </button>
+      <button
+        type="button"
+        class="inline-flex min-h-11 items-center justify-center rounded-full border-2 border-[var(--color-blue)] bg-[var(--color-blue)] px-4 text-sm font-extrabold text-white hover:bg-[var(--color-blue-dark)] sm:min-w-36"
+        data-cookie-accept
+      >
+        Elfogadom
+      </button>
+    </div>
+  </div>
+</section>
+
+<button
+  type="button"
+  class="fixed bottom-3 left-3 z-[90] hidden rounded-full border border-slate-200 bg-white/95 px-3 py-2 text-xs font-bold text-[var(--color-muted)] shadow-[0_8px_24px_rgba(2,20,45,0.14)] backdrop-blur hover:border-[var(--color-blue)] hover:text-[var(--color-blue-dark)] sm:bottom-4 sm:left-4"
+  data-cookie-settings-float
+  aria-label="Sütibeállítások megnyitása"
+>
+  Sütik
+</button>
+
+<script>
+  type ConsentChoice = 'granted' | 'denied';
+  type StoredConsent = { value: ConsentChoice; savedAt: number };
+  type AnalyticsWindow = Window & {
+    dataLayer: unknown[][];
+    gtag: (...args: unknown[]) => void;
+  };
+
+  const banner = document.querySelector<HTMLElement>('[data-cookie-banner]');
+  const acceptButton = document.querySelector<HTMLButtonElement>('[data-cookie-accept]');
+  const denyButton = document.querySelector<HTMLButtonElement>('[data-cookie-deny]');
+  const statusText = document.querySelector<HTMLElement>('[data-cookie-status]');
+  const floatingSettings = document.querySelector<HTMLButtonElement>('[data-cookie-settings-float]');
+  const settingsButtons = document.querySelectorAll<HTMLButtonElement>('[data-cookie-settings]');
+  const measurementId = banner?.dataset.measurementId;
+  const storageKey = 'dknyomda-analytics-consent-v1';
+  const consentLifetime = 365 * 24 * 60 * 60 * 1000;
+  const analyticsWindow = window as AnalyticsWindow;
+
+  const getStoredConsent = (): ConsentChoice | null => {
+    try {
+      const rawValue = window.localStorage.getItem(storageKey);
+      if (!rawValue) return null;
+      const stored = JSON.parse(rawValue) as StoredConsent;
+      if (!['granted', 'denied'].includes(stored.value) || Date.now() - stored.savedAt > consentLifetime) {
+        window.localStorage.removeItem(storageKey);
+        return null;
+      }
+      return stored.value;
+    } catch {
+      return null;
+    }
+  };
+
+  const storeConsent = (value: ConsentChoice) => {
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify({ value, savedAt: Date.now() }));
+    } catch {
+      // A választás ettől még az aktuális oldalon érvényesül.
+    }
+  };
+
+  const clearAnalyticsCookies = () => {
+    const cookieNames = document.cookie
+      .split(';')
+      .map((cookie) => cookie.split('=')[0]?.trim())
+      .filter((name): name is string => Boolean(name && /^_ga(?:_|$)/.test(name)));
+    const hostParts = window.location.hostname.split('.');
+    const rootDomain = hostParts.length > 1 ? `.${hostParts.slice(-2).join('.')}` : '';
+
+    cookieNames.forEach((name) => {
+      document.cookie = `${name}=; Max-Age=0; path=/; SameSite=Lax`;
+      if (rootDomain) {
+        document.cookie = `${name}=; Max-Age=0; path=/; domain=${rootDomain}; SameSite=Lax`;
+      }
+    });
+  };
+
+  const updateConsent = (analyticsStorage: ConsentChoice) => {
+    analyticsWindow.gtag('consent', 'update', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: analyticsStorage,
+    });
+  };
+
+  const loadAnalytics = () => {
+    if (!measurementId || document.querySelector('[data-google-analytics]')) return;
+    updateConsent('granted');
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+    script.dataset.googleAnalytics = measurementId;
+    document.head.append(script);
+
+    analyticsWindow.gtag('js', new Date());
+    analyticsWindow.gtag('config', measurementId, {
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false,
+    });
+  };
+
+  const hideBanner = () => {
+    banner?.classList.add('hidden');
+    floatingSettings?.classList.remove('hidden');
+  };
+
+  const showBanner = () => {
+    const currentChoice = getStoredConsent();
+    if (statusText && currentChoice) {
+      statusText.textContent = `Jelenlegi beállítás: ${currentChoice === 'granted' ? 'statisztikai sütik engedélyezve' : 'csak szükséges tárolás'}.`;
+      statusText.classList.remove('hidden');
+    } else {
+      statusText?.classList.add('hidden');
+    }
+    banner?.classList.remove('hidden');
+    floatingSettings?.classList.add('hidden');
+  };
+
+  acceptButton?.addEventListener('click', () => {
+    storeConsent('granted');
+    loadAnalytics();
+    hideBanner();
+  });
+
+  denyButton?.addEventListener('click', () => {
+    const wasLoaded = Boolean(document.querySelector('[data-google-analytics]'));
+    storeConsent('denied');
+    updateConsent('denied');
+    clearAnalyticsCookies();
+    hideBanner();
+    if (wasLoaded) window.location.reload();
+  });
+
+  settingsButtons.forEach((button) => button.addEventListener('click', showBanner));
+  floatingSettings?.addEventListener('click', showBanner);
+
+  const savedChoice = getStoredConsent();
+  if (savedChoice === 'granted') {
+    loadAnalytics();
+    hideBanner();
+  } else if (savedChoice === 'denied') {
+    updateConsent('denied');
+    clearAnalyticsCookies();
+    hideBanner();
+  } else {
+    clearAnalyticsCookies();
+    showBanner();
+  }
+</script>

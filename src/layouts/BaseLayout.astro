@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import QuoteModal from '../components/QuoteModal.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import heroProductShowcase from '../assets/hero-product-showcase.png';
 import { getImage } from 'astro:assets';
 
@@ -29,6 +30,7 @@ const optimizedOgImage = await getImage({
   quality: 78,
 });
 const ogImage = suppliedOgImage ?? new URL(optimizedOgImage.src, canonicalUrl).toString();
+const analyticsMeasurementId = 'G-T9SP33GHJ3';
 
 const serviceArea = [
   'Tahitótfalu',
@@ -125,17 +127,22 @@ const structuredData = {
     <meta name="twitter:image" content={ogImage} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9SP33GHJ3"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-T9SP33GHJ3');
+      window.gtag = gtag;
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied'
+      });
     </script>
     <title>{title}</title>
   </head>
   <body>
     <slot />
     <QuoteModal />
+    <CookieConsent measurementId={analyticsMeasurementId} />
   </body>
 </html>

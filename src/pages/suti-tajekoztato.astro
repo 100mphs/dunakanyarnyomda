@@ -1,0 +1,139 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Sütitájékoztató | Dunakanyar Nyomda"
+  description="Tájékoztatás a Dunakanyar Nyomda weboldalán alkalmazott szükséges és statisztikai sütikről."
+  canonicalUrl="https://dunakanyarnyomda.hu/suti-tajekoztato"
+>
+  <main class="min-h-screen py-8 sm:py-12">
+    <article class="section-shell max-w-4xl">
+      <a href="/" class="inline-flex items-center gap-2 text-sm font-extrabold text-[var(--color-blue-dark)] hover:underline">
+        <span aria-hidden="true">←</span> Vissza a főoldalra
+      </a>
+
+      <div class="mt-6 rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_18px_55px_rgba(16,17,19,0.08)] sm:p-10">
+        <p class="text-sm font-bold uppercase tracking-[0.16em] text-[var(--color-blue-dark)]">Adatvédelem</p>
+        <h1 class="mt-3 text-3xl font-extrabold tracking-tight text-[var(--color-ink)] sm:text-5xl">Sütitájékoztató</h1>
+        <p class="mt-3 text-sm text-[var(--color-muted)]">Utolsó frissítés: 2026. augusztus 13.</p>
+
+        <div class="mt-8 space-y-8 text-base leading-8 text-[var(--color-ink)]/80">
+          <section>
+            <h2 class="text-xl font-extrabold text-[var(--color-ink)]">1. Az adatkezelő</h2>
+            <p class="mt-3">
+              Dunakanyar Nyomda<br />
+              2021 Tahitótfalu, Ifjúság út 2.<br />
+              E-mail: <a class="font-bold text-[var(--color-blue-dark)] underline" href="mailto:dunakanyarnyomda@gmail.com">dunakanyarnyomda@gmail.com</a><br />
+              Telefon: <a class="font-bold text-[var(--color-blue-dark)] underline" href="tel:+36702110674">+36 70 211 0674</a>
+            </p>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-extrabold text-[var(--color-ink)]">2. Milyen tárolást használunk?</h2>
+            <div class="mt-4 grid gap-3 sm:hidden">
+              <dl class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6">
+                <dt class="font-mono text-xs font-bold text-[var(--color-ink)]">dknyomda-analytics-consent-v1</dt>
+                <dd class="mt-2"><strong>Típus:</strong> helyi tárolás, Dunakanyar Nyomda</dd>
+                <dd><strong>Cél:</strong> a sütiválasztás megjegyzése; az oldal működéséhez szükséges.</dd>
+                <dd><strong>Időtartam:</strong> 12 hónap</dd>
+              </dl>
+              <dl class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6">
+                <dt class="font-mono text-xs font-bold text-[var(--color-ink)]">_ga</dt>
+                <dd class="mt-2"><strong>Típus:</strong> statisztikai süti, Google Analytics</dd>
+                <dd><strong>Cél:</strong> látogatók megkülönböztetése összesített statisztikákhoz.</dd>
+                <dd><strong>Időtartam:</strong> legfeljebb 2 év</dd>
+              </dl>
+              <dl class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-6">
+                <dt class="font-mono text-xs font-bold text-[var(--color-ink)]">_ga_T9SP33GHJ3</dt>
+                <dd class="mt-2"><strong>Típus:</strong> statisztikai süti, Google Analytics</dd>
+                <dd><strong>Cél:</strong> a munkamenet állapotának megőrzése.</dd>
+                <dd><strong>Időtartam:</strong> legfeljebb 2 év</dd>
+              </dl>
+            </div>
+            <div class="mt-4 hidden overflow-x-auto rounded-2xl border border-slate-200 sm:block">
+              <table class="w-full min-w-[42rem] text-left text-sm leading-6">
+                <thead class="bg-slate-50 text-[var(--color-ink)]">
+                  <tr>
+                    <th class="px-4 py-3 font-extrabold">Név</th>
+                    <th class="px-4 py-3 font-extrabold">Típus és szolgáltató</th>
+                    <th class="px-4 py-3 font-extrabold">Cél</th>
+                    <th class="px-4 py-3 font-extrabold">Időtartam</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200">
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">dknyomda-analytics-consent-v1</td>
+                    <td class="px-4 py-3">Helyi tárolás, Dunakanyar Nyomda</td>
+                    <td class="px-4 py-3">A sütiválasztás megjegyzése. Az oldal működéséhez szükséges.</td>
+                    <td class="px-4 py-3">12 hónap</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">_ga</td>
+                    <td class="px-4 py-3">Statisztikai süti, Google Analytics</td>
+                    <td class="px-4 py-3">A látogatók megkülönböztetése összesített statisztikákhoz.</td>
+                    <td class="px-4 py-3">Legfeljebb 2 év</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-3 font-mono text-xs">_ga_T9SP33GHJ3</td>
+                    <td class="px-4 py-3">Statisztikai süti, Google Analytics</td>
+                    <td class="px-4 py-3">A munkamenet állapotának megőrzése.</td>
+                    <td class="px-4 py-3">Legfeljebb 2 év</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-extrabold text-[var(--color-ink)]">3. Google Analytics</h2>
+            <p class="mt-3">
+              A Google Analytics segítségével összesített információkat kapunk például a látogatások számáról,
+              a megtekintett oldalakról, valamint a használt eszköz és böngésző típusáról. A szolgáltató a
+              Google Ireland Limited (Gordon House, Barrow Street, Dublin 4, Írország).
+            </p>
+            <p class="mt-3">
+              A statisztikai mérés jogalapja a hozzájárulás. A Google Analytics címke és a hozzá tartozó sütik
+              csak az „Elfogadom” gomb megnyomása után aktiválódnak. A hirdetési célú adattárolás és a Google
+              Signals funkció nincs engedélyezve.
+            </p>
+            <p class="mt-3">
+              További információ:
+              <a
+                class="font-bold text-[var(--color-blue-dark)] underline"
+                href="https://policies.google.com/privacy?hl=hu"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Google adatvédelmi irányelvek</a>.
+            </p>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-extrabold text-[var(--color-ink)]">4. Hozzájárulás és visszavonás</h2>
+            <p class="mt-3">
+              A statisztikai sütik elfogadása önkéntes, az oldal minden alapvető funkciója elérhető az
+              elutasításuk esetén is. A döntés bármikor módosítható az oldal bal alsó sarkában megjelenő
+              „Sütik” gombbal. Elutasításkor a korábban létrehozott Google Analytics-sütiket töröljük, és a
+              következő oldalbetöltéstől nem töltjük be az Analytics címkét.
+            </p>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-extrabold text-[var(--color-ink)]">5. Érintetti jogok</h2>
+            <p class="mt-3">
+              Tájékoztatást kérhetsz a személyes adataid kezeléséről, kérheted azok helyesbítését, törlését vagy
+              kezelésének korlátozását, és visszavonhatod a hozzájárulásodat. Panasz esetén a Nemzeti
+              Adatvédelmi és Információszabadság Hatósághoz is fordulhatsz:
+              <a
+                class="font-bold text-[var(--color-blue-dark)] underline"
+                href="https://naih.hu/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >naih.hu</a>.
+            </p>
+          </section>
+        </div>
+      </div>
+    </article>
+  </main>
+</BaseLayout>
