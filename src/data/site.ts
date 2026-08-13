@@ -2,8 +2,12 @@ import iconPrint from '../assets/icons_print.svg';
 import iconFlyer from '../assets/icons_flyer.svg';
 import iconBusinessCard from '../assets/icons_business_card.svg';
 import iconGraphicDesign from '../assets/icons_graphic_design.svg';
-import iconPoster from '../assets/icons_poster.svg';
 import iconWebDesign from '../assets/icons_web_design.svg';
+import iconCopy from '../assets/icons_copy.svg';
+import iconSpiral from '../assets/icons_spiral.svg';
+import iconLaminate from '../assets/icons_laminate.svg';
+import iconPosterDisplay from '../assets/icons_poster_display.svg';
+import iconScan from '../assets/icons_scan.svg';
 
 export const services = [
   {
@@ -14,22 +18,22 @@ export const services = [
   {
     title: 'Fénymásolás',
     description: 'Gyors fekete-fehér és színes másolás több méretben.',
-    icon: iconPrint,
+    icon: iconCopy,
   },
   {
     title: 'Szkennelés',
     description: 'Dokumentumok és képek digitalizálása rövid határidővel.',
-    icon: iconGraphicDesign,
+    icon: iconScan,
   },
   {
     title: 'Spirálozás',
     description: 'Víztiszta előlap, fehér hátlap és rendezett dokumentumkötés.',
-    icon: iconPoster,
+    icon: iconSpiral,
   },
   {
     title: 'Laminálás',
     description: 'Dokumentumok, kártyák és anyagok tartós fóliázása.',
-    icon: iconPoster,
+    icon: iconLaminate,
   },
   {
     title: 'Szórólapok',
@@ -44,7 +48,7 @@ export const services = [
   {
     title: 'Poszterek',
     description: 'Molinók, táblák, roll-upok és egyedi látványanyagok.',
-    icon: iconPoster,
+    icon: iconPosterDisplay,
   },
   {
     title: 'Grafikai tervezés',

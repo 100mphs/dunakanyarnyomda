@@ -6,17 +6,21 @@ import { services } from '../data/site';
   <h2 class="section-title">Szolgáltatásaink</h2>
   <div class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
     {services.map((service) => (
-      <article class="service-card">
+      <article class="service-card flex min-w-0 flex-col items-center">
         <img
           src={service.icon.src}
           alt=""
           aria-hidden="true"
-          class="relative mx-auto h-20 w-20 object-contain"
+          class="relative block h-20 w-20 shrink-0 object-contain object-center"
         />
-        <h3 class="relative mt-6 text-xl font-extrabold uppercase tracking-tight">
+        <h3
+          class={`relative mt-6 flex min-h-14 w-full max-w-full items-center justify-center text-center font-extrabold uppercase leading-tight tracking-tight [overflow-wrap:anywhere] ${
+            service.title.startsWith('Weboldal') ? 'text-base' : 'text-lg 2xl:text-xl'
+          }`}
+        >
           {service.title}
         </h3>
-        <p class="relative mt-3 text-sm leading-7 text-[var(--color-muted)]">
+        <p class="relative mt-3 w-full max-w-full text-center text-sm leading-7 text-[var(--color-muted)]">
           {service.description}
         </p>
       </article>
