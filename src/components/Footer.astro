@@ -9,7 +9,15 @@ const currentYear = 2024;
   <div class="section-shell py-12">
     <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)_minmax(0,0.72fr)]">
       <div>
-        <img src={logo.src} alt="Dunakanyar Nyomda" class="h-auto w-64 brightness-0 invert" />
+        <img
+          src={logo.src}
+          alt="Dunakanyar Nyomda"
+          width={logo.width}
+          height={logo.height}
+          class="h-auto w-64 brightness-0 invert"
+          loading="lazy"
+          decoding="async"
+        />
         <p class="mt-6 max-w-sm text-base leading-8 text-white/75">
           Nyomtatás, fénymásolás, spirálozás, laminálás, grafikai tervezés és weboldalkészítés
           Tahitótfaluban és a Dunakanyar térségében.
@@ -46,7 +54,13 @@ const currentYear = 2024;
           <a href="mailto:dunakanyarnyomda@gmail.com" class="block hover:text-white">
             ✉️ dunakanyarnyomda@gmail.com
           </a>
-          <p>🕒 Hétfőtől péntekig: 8:30 – 16:30</p>
+          <div class="flex items-start gap-2">
+            <span aria-hidden="true">🕒</span>
+            <p>
+              Hétfő: 8:30 – 16:00<br />
+              Kedd–péntek: 8:30 – 17:00
+            </p>
+          </div>
         </div>
       </div>
 

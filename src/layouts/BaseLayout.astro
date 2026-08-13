@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import QuoteModal from '../components/QuoteModal.astro';
 import heroProductShowcase from '../assets/hero-product-showcase.png';
+import { getImage } from 'astro:assets';
 
 interface Props {
   title?: string;
@@ -18,8 +19,16 @@ const {
   canonicalUrl = 'https://dunakanyarnyomda.hu/',
   ogTitle = 'Dunakanyar Nyomda',
   ogDescription = 'Gyors nyomdai megoldások Tahitótfaluban és a Dunakanyar térségében.',
-  ogImage = new URL(heroProductShowcase.src, canonicalUrl).toString(),
+  ogImage: suppliedOgImage,
 } = Astro.props;
+
+const optimizedOgImage = await getImage({
+  src: heroProductShowcase,
+  width: 880,
+  format: 'jpg',
+  quality: 78,
+});
+const ogImage = suppliedOgImage ?? new URL(optimizedOgImage.src, canonicalUrl).toString();
 
 const serviceArea = [
   'Tahitótfalu',
@@ -66,9 +75,15 @@ const structuredData = {
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      dayOfWeek: ['Monday'],
       opens: '08:30',
-      closes: '16:30',
+      closes: '16:00',
+    },
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '08:30',
+      closes: '17:00',
     },
   ],
   areaServed: serviceArea.map((name) => ({
@@ -97,6 +112,8 @@ const structuredData = {
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={ogTitle} />

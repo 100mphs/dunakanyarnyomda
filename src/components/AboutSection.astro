@@ -1,5 +1,6 @@
 ---
 import aboutPrinter from '../assets/about-printer-closeup.png';
+import { Picture } from 'astro:assets';
 
 const features = [
   {
@@ -30,11 +31,19 @@ const features = [
   <div class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_22px_70px_rgba(16,17,19,0.08)]">
     <div class="grid gap-0 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,0.86fr)_minmax(0,1fr)_minmax(20rem,0.95fr)]">
       <div class="min-h-[22rem] overflow-hidden lg:min-h-full">
-        <img
-          src={aboutPrinter.src}
+        <Picture
+          src={aboutPrinter}
           alt="Professzionális nyomtató színes nyomtatás közben"
           class="h-full min-h-[22rem] w-full object-cover"
+          widths={[480, 640, 800, 1024]}
+          sizes="(max-width: 1023px) 100vw, (max-width: 1279px) 47vw, 29vw"
+          formats={['avif', 'webp']}
+          fallbackFormat="jpg"
+          quality={76}
+          layout="full-width"
+          fit="cover"
           loading="lazy"
+          decoding="async"
         />
       </div>
 

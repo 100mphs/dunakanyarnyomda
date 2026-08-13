@@ -1,5 +1,6 @@
 ---
 import heroProductShowcase from '../assets/hero-product-showcase.png';
+import { Picture } from 'astro:assets';
 import PhoneIcon from './PhoneIcon.astro';
 
 const valueProps = [
@@ -65,11 +66,18 @@ const valueProps = [
 
     <div class="relative">
       <div class="relative mx-auto max-w-[44rem] overflow-hidden rounded-[2rem] bg-[#fbfbfd] shadow-[0_28px_80px_rgba(16,17,19,0.10)]">
-        <img
-          src={heroProductShowcase.src}
+        <Picture
+          src={heroProductShowcase}
           alt="Dunakanyar Nyomda nyomdai termékek és arculati anyagok"
           class="h-auto max-h-[calc(100svh-9rem)] w-full object-contain"
-          loading="eager"
+          widths={[480, 704, 880]}
+          sizes="(max-width: 1023px) calc(100vw - 2rem), 55vw"
+          formats={['avif', 'webp']}
+          fallbackFormat="jpg"
+          quality={78}
+          layout="constrained"
+          fit="contain"
+          priority
         />
       </div>
     </div>

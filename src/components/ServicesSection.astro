@@ -11,7 +11,11 @@ import { services } from '../data/site';
           src={service.icon.src}
           alt=""
           aria-hidden="true"
+          width={service.icon.width}
+          height={service.icon.height}
           class="relative block h-20 w-20 shrink-0 object-contain object-center"
+          loading="lazy"
+          decoding="async"
         />
         <h3
           class={`relative mt-6 flex min-h-14 w-full max-w-full items-center justify-center text-center font-extrabold uppercase leading-tight tracking-tight [overflow-wrap:anywhere] ${

@@ -26,7 +26,11 @@ import PhoneIcon from './PhoneIcon.astro';
       <img
         src={logo.src}
         alt="Dunakanyar Nyomda"
+        width={logo.width}
+        height={logo.height}
         class="h-auto max-h-16 w-[13rem] max-w-[calc(100vw-5.75rem)] object-contain sm:w-[13.75rem] lg:w-56 xl:w-64"
+        decoding="async"
+        fetchpriority="high"
       />
     </a>
 
