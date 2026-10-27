@@ -2,7 +2,7 @@
 import logo from '../assets/logo.svg';
 import { quickLinks } from '../data/site';
 
-const currentYear = 2024;
+const currentYear = new Date().getFullYear();
 ---
 
 <footer class="bg-[linear-gradient(180deg,#02142D_0%,#010A17_100%)] text-white">
@@ -20,7 +20,7 @@ const currentYear = 2024;
         />
         <p class="mt-6 max-w-sm text-base leading-8 text-white/75">
           Nyomtatás, fénymásolás, spirálozás, laminálás, grafikai tervezés és weboldalkészítés
-          Tahitótfaluban és a Dunakanyar térségében.
+          telefonos vagy e-mailes rendeléssel a Dunakanyar térségében.
         </p>
         <div class="mt-6 flex gap-3">
           <a
@@ -49,18 +49,12 @@ const currentYear = 2024;
           Elérhetőség
         </h2>
         <div class="mt-6 space-y-4 text-base text-white/75">
-          <p>📍 2021 Tahitótfalu, Ifjúság út 2.</p>
           <a href="tel:+36702110674" class="block hover:text-white">📞 +36 70 211 0674</a>
           <a href="mailto:dunakanyarnyomda@gmail.com" class="block hover:text-white">
             ✉️ dunakanyarnyomda@gmail.com
           </a>
-          <div class="flex items-start gap-2">
-            <span aria-hidden="true">🕒</span>
-            <p>
-              Hétfő: 8:30 – 16:00<br />
-              Kedd–péntek: 8:30 – 17:00
-            </p>
-          </div>
+          <p>📦 Másnapi átvétel Tahiban vagy Leányfalun</p>
+          <p class="text-sm leading-6 text-white/60">Az Ifjúság úti üzlet bezárt; rendelést telefonon és e-mailben fogadunk.</p>
         </div>
       </div>
 

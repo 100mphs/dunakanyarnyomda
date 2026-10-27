@@ -1,110 +1,82 @@
 ---
-import map from '../assets/map.svg';
-
-const mapsUrl =
-  'https://www.google.com/maps/search/?api=1&query=Dunakanyar+Nyomda+2021+Tahit%C3%B3tfalu+Ifj%C3%BAs%C3%A1g+%C3%BAt+2';
-
-const contactItems = [
+const pickupPoints = [
   {
-    icon: '📍',
-    label: '2021 Tahitótfalu, Ifjúság út 2.',
-    description:
-      'Kiszolgált területek: Tahitótfalu, Leányfalu, Dunabogdány, Visegrád, Kisoroszi, Pócsmegyer, Szigetmonostor, Horány és Surány.',
-    href: mapsUrl,
+    icon: '🌱',
+    title: 'Gazdabolt – Tahi',
+    location: 'Tahi, a körforgalomnál',
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Gazdabolt+Tahi+k%C3%B6rforgalom',
   },
   {
-    icon: '📞',
-    label: '+36 70 211 0674',
-    href: 'tel:+36702110674',
-  },
-  {
-    icon: '✉️',
-    label: 'dunakanyarnyomda@gmail.com',
-    href: 'mailto:dunakanyarnyomda@gmail.com',
-  },
-  {
-    icon: '🕒',
-    label: 'Nyitvatartás',
-    lines: ['Hétfő: 8:30 – 16:00', 'Kedd–péntek: 8:30 – 17:00'],
+    icon: '🍀',
+    title: 'Lottózó – Leányfalu',
+    location: 'Leányfalu',
+    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lott%C3%B3z%C3%B3+Le%C3%A1nyfalu',
   },
 ];
 ---
 
 <section id="kapcsolat" class="section-shell py-16">
   <div class="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_22px_70px_rgba(16,17,19,0.08)]">
-    <div class="grid gap-0 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)]">
+    <div class="grid gap-0 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
       <div class="px-6 py-8 sm:px-8 lg:py-12">
         <p class="text-sm font-extrabold uppercase tracking-[0.24em] text-[var(--color-blue)]">
-          Kapcsolat
+          Rendelés és kapcsolat
         </p>
         <h2 class="mt-4 text-3xl font-extrabold leading-tight tracking-tight text-[var(--color-ink)] sm:text-4xl">
-          Személyesen is várunk!
+          Rendelj telefonon vagy e-mailben!
         </h2>
+        <p class="mt-4 max-w-xl text-base leading-7 text-[var(--color-muted)]">
+          Az Ifjúság úti üzletünk bezárt. A rendeléseket telefonon és e-mailben fogadjuk, az
+          elkészült munkákat pedig másnap két kényelmes átvételi pont egyikén veheted át.
+        </p>
 
-        <div class="mt-8 space-y-5">
-          {contactItems.map((item) => (
-            <div class="flex items-center gap-4">
-              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-blue)]/10 text-xl">
-                {item.icon}
-              </span>
-              {item.href ? (
-                <div>
-                  <a
-                    href={item.href}
-                    target={item.href === mapsUrl ? '_blank' : undefined}
-                    rel={item.href === mapsUrl ? 'noopener noreferrer' : undefined}
-                    class="text-base font-semibold text-[var(--color-ink)] hover:text-[var(--color-blue)]"
-                  >
-                    {item.label}
-                  </a>
-                  {item.description && (
-                    <p class="mt-1 max-w-md text-sm leading-6 text-[var(--color-muted)]">
-                      {item.description}
-                    </p>
-                  )}
-                </div>
-              ) : (
-                <span class="text-base font-semibold text-[var(--color-ink)]">
-                  {'lines' in item && item.lines ? (
-                    item.lines.map((line) => <span class="block">{line}</span>)
-                  ) : (
-                    item.label
-                  )}
-                </span>
-              )}
-            </div>
-          ))}
+        <div class="mt-7 grid gap-3">
+          <a href="tel:+36702110674" class="flex items-center gap-4 rounded-2xl border border-slate-200 p-4 hover:border-[var(--color-blue)] hover:bg-sky-50/50">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-blue)]/10 text-xl" aria-hidden="true">📞</span>
+            <span>
+              <span class="block text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-muted)]">Telefonos rendelés</span>
+              <span class="mt-1 block text-base font-extrabold text-[var(--color-ink)]">+36 70 211 0674</span>
+            </span>
+          </a>
+          <a href="mailto:dunakanyarnyomda@gmail.com" class="flex items-center gap-4 rounded-2xl border border-slate-200 p-4 hover:border-[var(--color-blue)] hover:bg-sky-50/50">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--color-blue)]/10 text-xl" aria-hidden="true">✉️</span>
+            <span class="min-w-0">
+              <span class="block text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-muted)]">E-mailes rendelés</span>
+              <span class="mt-1 block break-all text-base font-extrabold text-[var(--color-ink)]">dunakanyarnyomda@gmail.com</span>
+            </span>
+          </a>
         </div>
 
-        <a
-          href={mapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="brand-button-primary mt-9 w-full sm:w-fit"
-        >
-          Útvonal tervezése
-          <span aria-hidden="true">→</span>
-        </a>
+        <div class="mt-7 rounded-2xl bg-slate-50 p-5">
+          <h3 class="text-sm font-extrabold uppercase tracking-[0.16em] text-[var(--color-ink)]">Így működik</h3>
+          <ol class="mt-4 grid gap-3 text-sm leading-6 text-[var(--color-muted)]">
+            <li class="flex gap-3"><span class="font-extrabold text-[var(--color-blue-dark)]">1.</span><span>Add le a rendelést telefonon vagy e-mailben.</span></li>
+            <li class="flex gap-3"><span class="font-extrabold text-[var(--color-blue-dark)]">2.</span><span>Visszaigazoljuk a részleteket és az átvételi pontot.</span></li>
+            <li class="flex gap-3"><span class="font-extrabold text-[var(--color-blue-dark)]">3.</span><span>Az elkészült rendelést másnap átveheted.</span></li>
+          </ol>
+        </div>
       </div>
 
-      <a
-        href={mapsUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group relative flex min-h-[22rem] items-center justify-center overflow-hidden bg-[#f4f4f4] outline-none ring-inset ring-[var(--color-blue)] transition hover:brightness-[0.98] focus-visible:ring-4"
-        aria-label="Útvonal tervezése Google Mapsben a Dunakanyar Nyomdához"
-      >
-        <img
-          src={map.src}
-          alt="Térkép Tahitótfalu, Ifjúság út 2 környékéről"
-          class="h-full max-h-[32rem] min-h-[22rem] w-full object-contain p-3 transition duration-300 group-hover:scale-[1.01]"
-          loading="lazy"
-          decoding="async"
-        />
-        <span class="absolute right-5 top-5 rounded-full bg-white/95 px-4 py-2 text-sm font-extrabold text-[var(--color-blue)] shadow-[0_12px_30px_rgba(16,17,19,0.12)]">
-          Google Maps →
-        </span>
-      </a>
+      <div class="flex flex-col justify-center bg-[linear-gradient(145deg,#F4FAFF_0%,#F8F7FB_100%)] px-6 py-8 sm:px-8 lg:px-10 lg:py-12">
+        <p class="text-sm font-extrabold uppercase tracking-[0.24em] text-[var(--color-pink)]">Átvételi pontok</p>
+        <h2 class="mt-3 text-2xl font-extrabold tracking-tight text-[var(--color-ink)] sm:text-3xl">Válaszd a hozzád közelebbit</h2>
+        <p class="mt-3 max-w-xl text-sm leading-6 text-[var(--color-muted)]">
+          A választott helyszínt és az átvétel részleteit a rendelés visszaigazolásakor egyeztetjük.
+        </p>
+
+        <div class="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          {pickupPoints.map((point) => (
+            <article class="flex min-h-56 flex-col rounded-[1.5rem] border border-white bg-white p-5 shadow-[0_16px_45px_rgba(15,35,67,0.10)]">
+              <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--color-yellow)]/20 text-2xl" aria-hidden="true">{point.icon}</span>
+              <h3 class="mt-5 text-xl font-extrabold text-[var(--color-ink)]">{point.title}</h3>
+              <p class="mt-2 text-sm font-semibold leading-6 text-[var(--color-muted)]">{point.location}</p>
+              <a href={point.mapsUrl} target="_blank" rel="noopener noreferrer" class="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-extrabold text-[var(--color-blue-dark)] hover:underline">
+                Megnyitás térképen <span aria-hidden="true">→</span>
+              </a>
+            </article>
+          ))}
+        </div>
+      </div>
     </div>
   </div>
 </section>
